@@ -90,6 +90,25 @@
 			path = Topping;
 			sourceTree = "<group>";
 		};
+		57D91DDF24CA3A1700F323FD /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				5799544F24C5864600483447 /* ProfileViewController.swift */,
+				575279F824C9A2AD0032F98F /* ProfileCollectionViewCell.swift */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
+		57D91DE024CA3A4D00F323FD /* Feed */ = {
+			isa = PBXGroup;
+			children = (
+				5721A1FE24C4EAF100FB0A42 /* FeedViewController.swift */,
+				575279F324C796940032F98F /* FeedCollectionViewCell.swift */,
+				575279F424C796940032F98F /* FeedCollectionViewCell.xib */,
+			);
+			path = Feed;
+			sourceTree = "<group>";
+		};
 		74B7924B202B3254006BCB41 = {
 			isa = PBXGroup;
 			children = (
@@ -120,16 +139,13 @@
 		74B7927B202B3427006BCB41 /* Code */ = {
 			isa = PBXGroup;
 			children = (
-				5799545324C62BF500483447 /* Topping */,
-				5721A1FE24C4EAF100FB0A42 /* FeedViewController.swift */,
-				575279F324C796940032F98F /* FeedCollectionViewCell.swift */,
-				575279F424C796940032F98F /* FeedCollectionViewCell.xib */,
-				5799544F24C5864600483447 /* ProfileViewController.swift */,
-				575279F824C9A2AD0032F98F /* ProfileCollectionViewCell.swift */,
-				74B79257202B3254006BCB41 /* AppDelegate.swift */,
 				575279FA24CA0E890032F98F /* Followers */,
+				5799545324C62BF500483447 /* Topping */,
+				57D91DE024CA3A4D00F323FD /* Feed */,
+				57D91DDF24CA3A1700F323FD /* Profile */,
 				5721A20024C4EBEF00FB0A42 /* Main.storyboard */,
 				5799545124C58FFF00483447 /* Launch Screen.storyboard */,
+				74B79257202B3254006BCB41 /* AppDelegate.swift */,
 			);
 			path = Code;
 			sourceTree = "<group>";
