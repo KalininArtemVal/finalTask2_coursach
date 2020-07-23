@@ -12,9 +12,7 @@ import DataProvider
 
 
 
-
 class FollowedByUser: UIViewController {
-    
     
     @IBOutlet weak var tableView: UITableView!
     
@@ -26,8 +24,6 @@ class FollowedByUser: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
     }
-    
-    
 }
 
 extension FollowedByUser: UITableViewDelegate, UITableViewDataSource {

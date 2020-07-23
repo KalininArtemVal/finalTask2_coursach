@@ -139,8 +139,8 @@
 		74B7927B202B3427006BCB41 /* Code */ = {
 			isa = PBXGroup;
 			children = (
-				575279FA24CA0E890032F98F /* Followers */,
 				5799545324C62BF500483447 /* Topping */,
+				575279FA24CA0E890032F98F /* Followers */,
 				57D91DE024CA3A4D00F323FD /* Feed */,
 				57D91DDF24CA3A1700F323FD /* Profile */,
 				5721A20024C4EBEF00FB0A42 /* Main.storyboard */,

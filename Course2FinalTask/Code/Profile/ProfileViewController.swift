@@ -49,14 +49,6 @@ class ProfileViewController: UIViewController {
         countOfFollowing?.text = String(followedBy)
     }
     
-
-    @IBAction func followingButton(_ sender: Any) {
-        
-    }
-    @IBAction func followersButton(_ sender: Any) {
-        
-    }
-    
 }
 
 extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataSource {
