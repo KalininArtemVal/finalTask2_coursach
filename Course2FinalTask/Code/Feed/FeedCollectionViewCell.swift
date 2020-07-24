@@ -18,6 +18,13 @@ class FeedCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var countOfLikes: UIButton?
     @IBOutlet weak var heartOfLike: UIButton?
     @IBOutlet weak var descriptionTextLable: UILabel?
+    @IBOutlet weak var imageHeartOfLike: UIImageView!
     
     
+    static let identifire = "feedCell"
+    
+    
+    static func nib() -> UINib {
+        return UINib(nibName: "FeedCollectionViewCell", bundle: nil)
+    }
 }

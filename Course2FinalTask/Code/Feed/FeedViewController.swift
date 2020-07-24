@@ -20,10 +20,17 @@ class FeedViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setLayout()
         feedCollectionView.dataSource = self
         feedCollectionView.delegate = self
-        feedCollectionView.register(FeedCollectionViewCell.self, forCellWithReuseIdentifier: "feedCell")
+        feedCollectionView.register(FeedCollectionViewCell.nib(), forCellWithReuseIdentifier: FeedCollectionViewCell.identifire)
         feedCollectionView.reloadData()
+    }
+    
+    func setLayout() {
+        let layout = UICollectionViewFlowLayout()
+        layout.itemSize = CGSize(width: 415, height: 650)
+        feedCollectionView.collectionViewLayout = layout
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -44,9 +51,11 @@ extension FeedViewController: UICollectionViewDataSource, UICollectionViewDelega
         let post = arrayOfPosts[indexPath.item]
         
         if post.currentUserLikesThisPost == true {
-            cell.heartOfLike?.imageView?.image = #imageLiteral(resourceName: "like")
+            cell.imageHeartOfLike.image = #imageLiteral(resourceName: "like")
+            cell.imageHeartOfLike.tintColor = .systemBlue
         } else {
-            cell.heartOfLike?.imageView?.image = #imageLiteral(resourceName: "bigLike")
+            cell.imageHeartOfLike.image = #imageLiteral(resourceName: "like")
+            cell.imageHeartOfLike.tintColor = .lightGray
         }
         cell.userName?.titleLabel?.text = post.authorUsername
         cell.countOfLikes?.titleLabel?.text = String(post.likedByCount)
@@ -56,5 +65,15 @@ extension FeedViewController: UICollectionViewDataSource, UICollectionViewDelega
         cell.postImage?.image = post.image
        
         return cell
+    }
+}
+
+extension FeedViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: 415, height: 600)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
     }
 }

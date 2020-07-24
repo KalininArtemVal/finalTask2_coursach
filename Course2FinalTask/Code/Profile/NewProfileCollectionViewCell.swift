@@ -1,0 +1,30 @@
+//
+//  NewProfileCollectionViewCell.swift
+//  Course2FinalTask
+//
+//  Created by Калинин Артем Валериевич on 24.07.2020.
+//  Copyright © 2020 e-Legion. All rights reserved.
+//
+
+import UIKit
+
+class NewProfileCollectionViewCell: UICollectionViewCell {
+    
+    @IBOutlet weak var imageView: UIImageView!
+    
+
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        // Initialization code
+    }
+
+    static let identifire = "profileCell"
+    
+    public func configue(with image: UIImage) {
+        imageView.image = image
+    }
+    
+    static func nib() -> UINib {
+        return UINib(nibName: "NewProfileCollectionViewCell", bundle: nil)
+    }
+}
