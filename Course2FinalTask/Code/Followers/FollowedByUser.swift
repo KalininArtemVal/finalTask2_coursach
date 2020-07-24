@@ -33,10 +33,15 @@ extension FollowedByUser: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "followedCell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "followedCell", for: indexPath) as! FollowedByUserTableViewCell
         guard let friend = followedByUser?[indexPath.row] else {return fatalError("nothing here") as! UITableViewCell}
-        cell.textLabel?.text = friend.fullName
+        cell.userName.text = friend.fullName
+        cell.userPhoto.image = friend.avatar
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
     }
     
     
