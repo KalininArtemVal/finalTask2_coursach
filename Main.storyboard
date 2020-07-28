@@ -59,6 +59,9 @@
                                         <state key="normal" title="Followers:">
                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
+                                        <connections>
+                                            <segue destination="Xlv-Mm-EJf" kind="show" identifier="followers" id="u14-nR-sYO"/>
+                                        </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h43-WG-YsK">
                                         <rect key="frame" x="72" y="0.0" width="9.5" height="29"/>
@@ -78,7 +81,7 @@
                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
                                         <connections>
-                                            <segue destination="Xlv-Mm-EJf" kind="show" id="NfC-oB-lsA"/>
+                                            <segue destination="Xlv-Mm-EJf" kind="show" identifier="following" id="NfC-oB-lsA"/>
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lBA-y6-Z3j">
@@ -293,6 +296,9 @@
             <point key="canvasLocation" x="444.92753623188412" y="-54.241071428571423"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="NfC-oB-lsA"/>
+    </inferredMetricsTieBreakers>
     <resources>
         <image name="feed" width="25" height="25"/>
         <image name="profile" width="25" height="25"/>

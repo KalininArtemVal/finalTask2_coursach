@@ -10,15 +10,18 @@ import Foundation
 import UIKit
 import DataProvider
 
-
+let followedByUser = user.usersFollowedByUser(with: currentUser.id)
+let followingUser = user.usersFollowingUser(with: currentUser.id)
 
 class FollowedByUser: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     
-    let followedByUser = user.usersFollowedByUser(with: currentUser.id)
-    var unwrappedFollowedByUser = [User]()
-
+    
+    var friends: [User]?
+    
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.delegate = self
@@ -29,12 +32,12 @@ class FollowedByUser: UIViewController {
 extension FollowedByUser: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return followedByUser?.count ?? 0
+        return friends?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "followedCell", for: indexPath) as! FollowedByUserTableViewCell
-        guard let friend = followedByUser?[indexPath.row] else {return fatalError("nothing here") as! UITableViewCell}
+        guard let friend = friends?[indexPath.row] else {return fatalError("nothing here") as! UITableViewCell}
         cell.userName.text = friend.fullName
         cell.userPhoto.image = friend.avatar
         return cell

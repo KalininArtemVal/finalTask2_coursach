@@ -13,11 +13,6 @@ class NewProfileCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var imageView: UIImageView!
     
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
-
     static let identifire = "profileCell"
     
     public func configue(with image: UIImage) {

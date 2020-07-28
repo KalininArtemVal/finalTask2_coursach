@@ -12,7 +12,5 @@ class FollowedByUserTableViewCell: UITableViewCell {
 
     @IBOutlet weak var userPhoto: UIImageView!
     @IBOutlet weak var userName: UILabel!
-    
-    
-
+   
 }

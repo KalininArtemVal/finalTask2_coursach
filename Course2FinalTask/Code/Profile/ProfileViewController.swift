@@ -36,6 +36,16 @@ class ProfileViewController: UIViewController {
         collectionView.reloadData()
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "followers" {
+            let destination = segue.destination as? FollowedByUser
+            destination?.friends = followingUser
+        } else if segue.identifier == "following"{
+            let destination = segue.destination as? FollowedByUser
+            destination?.friends = followedByUser
+        }
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         collectionView.reloadData()
     }
@@ -71,6 +81,11 @@ class ProfileViewController: UIViewController {
         countOfFollowers.text = String(followers)
         countOfFollowing.text = String(followedBy)
     }
+    
+    
+   
+ 
+    
 }
 
 extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataSource {
@@ -81,11 +96,11 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
                     arrayOfCurrentPostUnwrapped.append(post)
                 }
             }
-            return arrayOfCurrentPostUnwrapped.count
         }
         return arrayOfCurrentPostUnwrapped.count
     }
 
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "profileCell", for: indexPath) as? NewProfileCollectionViewCell else {fatalError("hogeCell not registered.")}
         if let arrayOfCurrentPost = arrayOfCurrentPost {
@@ -107,19 +122,4 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
 }
 
 extension ProfileViewController: UICollectionViewDelegateFlowLayout {
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-//        return CGSize(width: 135, height: 130)
-//    }
-//
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-//        return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-//    }
-//
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-//        return 0
-//    }
-//
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-//        return 0
-//    }
 }
