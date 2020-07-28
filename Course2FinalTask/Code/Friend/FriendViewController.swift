@@ -29,10 +29,11 @@ class FriendViewController: UIViewController {
     }
     
     func setUser() {
-        friendAvatar.image = currentFriend?.avatar
-        friendUserName.text = currentFriend?.fullName
-        friendFollowersCount.text = String(currentFriend?.followedByCount ?? 0)
-        friendFollowingCount.text = String(currentFriend?.followsCount ?? 0)
+        guard let friend = currentFriend else {return}
+        friendAvatar.image = friend.avatar
+        friendAvatar.layer.cornerRadius = friendAvatar.frame.size.width / 2
+        friendUserName.text = friend.fullName
+        friendFollowersCount.text = String(friend.followedByCount)
+        friendFollowingCount.text = String(friend.followsCount)
     }
-
 }

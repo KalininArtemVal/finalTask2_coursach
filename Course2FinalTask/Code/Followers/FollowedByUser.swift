@@ -37,13 +37,21 @@ extension FollowedByUser: UITableViewDelegate, UITableViewDataSource {
         guard let friend = friends?[indexPath.row] else {return fatalError("nothing here") as! UITableViewCell}
         cell.userName.text = friend.fullName
         cell.userPhoto.image = friend.avatar
+        cell.userPhoto.layer.cornerRadius = cell.userPhoto.frame.size.width / 2
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-//        performSegue(withIdentifier: <#T##String#>, sender: <#T##Any?#>)
     }
     
-    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        if segue.identifier == "toFriend" {
+            let destination = segue.destination as? FriendViewController
+            if let friend = friends?[tableView.indexPathForSelectedRow!.row] {
+                destination?.currentFriend = friend
+            }
+        }
+    }
 }
