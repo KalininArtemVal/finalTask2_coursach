@@ -13,6 +13,7 @@
 		575279F624C796940032F98F /* FeedCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 575279F424C796940032F98F /* FeedCollectionViewCell.xib */; };
 		575279FC24CA0EAC0032F98F /* FollowedByUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 575279FB24CA0EAC0032F98F /* FollowedByUser.swift */; };
 		575279FE24CA10450032F98F /* FollowingUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 575279FD24CA10450032F98F /* FollowingUser.swift */; };
+		5757281E24D0911E00C5D007 /* FriendViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5757281D24D0911E00C5D007 /* FriendViewController.swift */; };
 		5799545024C5864600483447 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5799544F24C5864600483447 /* ProfileViewController.swift */; };
 		5799545224C58FFF00483447 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5799545124C58FFF00483447 /* Launch Screen.storyboard */; };
 		5799545724C72E9800483447 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5799545624C72E9800483447 /* User.swift */; };
@@ -48,6 +49,7 @@
 		575279F424C796940032F98F /* FeedCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FeedCollectionViewCell.xib; sourceTree = "<group>"; };
 		575279FB24CA0EAC0032F98F /* FollowedByUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowedByUser.swift; sourceTree = "<group>"; };
 		575279FD24CA10450032F98F /* FollowingUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowingUser.swift; sourceTree = "<group>"; };
+		5757281D24D0911E00C5D007 /* FriendViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendViewController.swift; sourceTree = "<group>"; };
 		5799544F24C5864600483447 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		5799545124C58FFF00483447 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = SOURCE_ROOT; };
 		5799545624C72E9800483447 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
@@ -83,6 +85,14 @@
 				575279FD24CA10450032F98F /* FollowingUser.swift */,
 			);
 			path = Followers;
+			sourceTree = "<group>";
+		};
+		5757281C24D08FE800C5D007 /* Friend */ = {
+			isa = PBXGroup;
+			children = (
+				5757281D24D0911E00C5D007 /* FriendViewController.swift */,
+			);
+			path = Friend;
 			sourceTree = "<group>";
 		};
 		5799545324C62BF500483447 /* Topping */ = {
@@ -145,6 +155,7 @@
 		74B7927B202B3427006BCB41 /* Code */ = {
 			isa = PBXGroup;
 			children = (
+				5757281C24D08FE800C5D007 /* Friend */,
 				5799545324C62BF500483447 /* Topping */,
 				575279FA24CA0E890032F98F /* Followers */,
 				57D91DE024CA3A4D00F323FD /* Feed */,
@@ -248,6 +259,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5757281E24D0911E00C5D007 /* FriendViewController.swift in Sources */,
 				5799545B24C72EB400483447 /* Main.swift in Sources */,
 				5799545724C72E9800483447 /* User.swift in Sources */,
 				575279FE24CA10450032F98F /* FollowingUser.swift in Sources */,

@@ -17,10 +17,7 @@ class FollowedByUser: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     
-    
     var friends: [User]?
-    
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,6 +42,7 @@ extension FollowedByUser: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+//        performSegue(withIdentifier: <#T##String#>, sender: <#T##Any?#>)
     }
     
     

@@ -40,7 +40,7 @@ class ProfileViewController: UIViewController {
         if segue.identifier == "followers" {
             let destination = segue.destination as? FollowedByUser
             destination?.friends = followingUser
-        } else if segue.identifier == "following"{
+        } else if segue.identifier == "following" {
             let destination = segue.destination as? FollowedByUser
             destination?.friends = followedByUser
         }
@@ -81,11 +81,6 @@ class ProfileViewController: UIViewController {
         countOfFollowers.text = String(followers)
         countOfFollowing.text = String(followedBy)
     }
-    
-    
-   
- 
-    
 }
 
 extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataSource {
