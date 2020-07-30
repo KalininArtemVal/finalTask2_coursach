@@ -193,7 +193,7 @@
             </objects>
             <point key="canvasLocation" x="2259" y="271"/>
         </scene>
-        <!--Friend View Controller-->
+        <!--useName-->
         <scene sceneID="6Q9-Rk-67i">
             <objects>
                 <viewController id="35m-cl-f69" customClass="FriendViewController" customModule="Course2FinalTask" customModuleProvider="target" sceneMemberID="viewController">
@@ -246,9 +246,8 @@
                                     </label>
                                 </subviews>
                             </stackView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="userName" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AdD-MZ-JJY">
-                                <rect key="frame" x="86" y="96" width="209" height="17"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="userName" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AdD-MZ-JJY">
+                                <rect key="frame" x="86" y="96" width="66" height="17"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -277,7 +276,9 @@
                             <constraint firstItem="LdI-Ck-YCu" firstAttribute="trailing" secondItem="4Jj-tn-1gy" secondAttribute="trailing" id="4XC-bi-J4z"/>
                             <constraint firstAttribute="bottom" secondItem="LdI-Ck-YCu" secondAttribute="bottom" id="Rsu-ca-UjB"/>
                             <constraint firstItem="LdI-Ck-YCu" firstAttribute="leading" secondItem="4Jj-tn-1gy" secondAttribute="leading" id="XL9-Hl-Fji"/>
+                            <constraint firstItem="AdD-MZ-JJY" firstAttribute="top" secondItem="4Jj-tn-1gy" secondAttribute="top" constant="8" id="ZmS-Ib-YeC"/>
                             <constraint firstItem="4Jj-tn-1gy" firstAttribute="trailing" secondItem="t04-9x-HCb" secondAttribute="trailing" constant="16" id="aJQ-Wx-X1o"/>
+                            <constraint firstItem="AdD-MZ-JJY" firstAttribute="leading" secondItem="iYs-fR-s8b" secondAttribute="trailing" constant="8" id="fiJ-ZR-TMm"/>
                             <constraint firstItem="LdI-Ck-YCu" firstAttribute="top" secondItem="t04-9x-HCb" secondAttribute="bottom" constant="8" id="hAe-jX-P0p"/>
                             <constraint firstItem="iYs-fR-s8b" firstAttribute="top" secondItem="4Jj-tn-1gy" secondAttribute="top" constant="8" id="iAp-Ao-Bop"/>
                             <constraint firstItem="LdI-Ck-YCu" firstAttribute="top" secondItem="cYY-tR-z87" secondAttribute="bottom" constant="8" id="m6r-0K-eLZ"/>
@@ -287,7 +288,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="4Jj-tn-1gy"/>
                     </view>
-                    <navigationItem key="navigationItem" id="dX5-ON-QGX"/>
+                    <navigationItem key="navigationItem" title="useName" id="dX5-ON-QGX"/>
                     <connections>
                         <outlet property="friendAvatar" destination="iYs-fR-s8b" id="bPT-fo-s8Y"/>
                         <outlet property="friendCollectionView" destination="LdI-Ck-YCu" id="qjg-5J-v4X"/>
@@ -310,7 +311,7 @@
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" springLoaded="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wxK-9Q-g8q">
                                 <rect key="frame" x="0.0" y="88" width="414" height="725"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <color key="backgroundColor" red="0.81051505032973703" green="0.80462227776825801" blue="0.83952649111675126" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="e3R-4o-krl">
                                     <size key="itemSize" width="128" height="128"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>

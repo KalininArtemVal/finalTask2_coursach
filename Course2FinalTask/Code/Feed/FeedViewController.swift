@@ -12,6 +12,7 @@ import DataProvider
 let arrayOfPosts = post.feed()
 var arrayOfPostsWithoutNil = [Post]()
 
+let post = DataProviders.shared.postsDataProvider
 
 class FeedViewController: UIViewController {
     
@@ -28,8 +29,10 @@ class FeedViewController: UIViewController {
     }
     
     func setLayout() {
-        let layout = UICollectionViewFlowLayout()
-        layout.itemSize = CGSize(width: 415, height: 650)
+        let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        layout.minimumInteritemSpacing = 0
+        layout.minimumLineSpacing = 0
         feedCollectionView.collectionViewLayout = layout
     }
     
@@ -57,22 +60,33 @@ extension FeedViewController: UICollectionViewDataSource, UICollectionViewDelega
             cell.imageHeartOfLike.image = #imageLiteral(resourceName: "like")
             cell.imageHeartOfLike.tintColor = .lightGray
         }
-        cell.userName?.titleLabel?.text = post.authorUsername
-        cell.countOfLikes?.titleLabel?.text = String(post.likedByCount)
+        cell.userName?.text = post.authorUsername
+        cell.countOfLikes?.text = String(post.likedByCount)
         cell.descriptionTextLable?.text = post.description
         cell.dateOfPublishing?.text = post.createdTime.description
         cell.userAvatar?.image = post.authorAvatar
+        cell.userAvatar?.layer.cornerRadius = (cell.userAvatar?.frame.size.width)! / 2
         cell.postImage?.image = post.image
-       
+        cell.currentFriend?.id = post.author
+        cell.currentPost = post
         return cell
     }
+    
+//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//        guard let destination = segue.destination as? FeedCollectionViewCell else {return}
+//        destination.currentFriend = 
+//    }
+    
+    
 }
 
 extension FeedViewController: UICollectionViewDelegateFlowLayout {
+
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 415, height: 600)
+        let size = CGSize(width: UIScreen.main.bounds.size.width/1.0, height: 600)
+        return size//CGSize(width: 415, height: 600)
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
     }

@@ -22,7 +22,7 @@ class ProfileViewController: UIViewController {
     
     @IBOutlet weak var collectionView: UICollectionView!
     
-    
+    var animatoin: UIViewPropertyAnimator!
     var arrayOfCurrentPost = post.findPosts(by: currentUser.id)//[Post]()
     var arrayOfCurrentPostUnwrapped = [Post]()
     
@@ -35,6 +35,7 @@ class ProfileViewController: UIViewController {
         collectionView.register(NewProfileCollectionViewCell.nib(), forCellWithReuseIdentifier: NewProfileCollectionViewCell.identifire)
         collectionView.reloadData()
     }
+
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "followers" {
@@ -51,24 +52,10 @@ class ProfileViewController: UIViewController {
     }
     
     func setLayout() {
-        let layout = UICollectionViewFlowLayout()
-        layout.itemSize = CGSize(width: 135, height: 130)
-        layout.sectionFootersPinToVisibleBounds = true
-        collectionView.collectionViewLayout = layout
-        
-        let numberOfItemPerRow: CGFloat = 3
-        let lineSpacing: CGFloat = 1
-        let interItemSpacing: CGFloat = 1
-        
-        let width = (collectionView.frame.width - (numberOfItemPerRow - 1) * interItemSpacing) / numberOfItemPerRow
-        let height = width
-        
-        layout.itemSize = CGSize(width: width, height: height)
-        layout.sectionInset = UIEdgeInsets.zero
-        layout.scrollDirection = .vertical
-        layout.minimumLineSpacing = lineSpacing
-        layout.minimumInteritemSpacing = interItemSpacing
-        
+        let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        layout.minimumInteritemSpacing = 0
+        layout.minimumLineSpacing = 0
         collectionView.setCollectionViewLayout(layout, animated: true)
     }
 
@@ -80,6 +67,7 @@ class ProfileViewController: UIViewController {
         let followedBy = currentUser.followsCount
         countOfFollowers.text = String(followers)
         countOfFollowing.text = String(followedBy)
+        title = currentUser.username
     }
 }
 
@@ -117,4 +105,13 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
 }
 
 extension ProfileViewController: UICollectionViewDelegateFlowLayout {
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+    }
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: UIScreen.main.bounds.size.width/3.0, height: UIScreen.main.bounds.size.width/3.0)
+    }
+    
 }
