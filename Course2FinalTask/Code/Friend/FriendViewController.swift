@@ -31,6 +31,11 @@ class FriendViewController: UIViewController {
         setLayout()
     }
     
+    @objc func tapFollowers(sender: UITapGestureRecognizer) {
+        let vc = FollowedByUser()
+        show(vc, sender: self)
+    }
+    
     func setUser() {
         guard let friend = currentFriend else {return}
         friendAvatar.image = friend.avatar
@@ -49,15 +54,18 @@ class FriendViewController: UIViewController {
         friendCollectionView.setCollectionViewLayout(layout, animated: true)
     }
     
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        if segue.identifier == "followersFrom" {
-//            let destination = segue.destination as? FollowedByUser
-//            destination?.friends = followingUser
-//        } else if segue.identifier == "followingFrom" {
-//            let destination = segue.destination as? FollowedByUser
-//            destination?.friends = followedByUser
-//        }
-//    }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "friendFollowing" {
+            let destination = segue.destination as? FollowedByUser
+            
+            let currentUserFollowers = user.usersFollowedByUser(with: currentFriend?.id ?? currentUser.id)
+            destination?.friends = currentUserFollowers
+        } else if segue.identifier == "friendFollowers" {
+            let destination = segue.destination as? FollowedByUser
+            let currentUserFollowing = user.usersFollowingUser(with: currentFriend?.id ?? currentUser.id)
+            destination?.friends = currentUserFollowing
+        }
+    }
     
 
     

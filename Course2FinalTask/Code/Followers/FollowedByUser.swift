@@ -46,7 +46,6 @@ extension FollowedByUser: UITableViewDelegate, UITableViewDataSource {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
         if segue.identifier == "toFriend" {
             let destination = segue.destination as? FriendViewController
             if let friend = friends?[tableView.indexPathForSelectedRow!.row] {

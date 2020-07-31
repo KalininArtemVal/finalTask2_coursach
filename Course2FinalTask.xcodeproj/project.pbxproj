@@ -14,7 +14,6 @@
 		575279F524C796940032F98F /* FeedCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 575279F324C796940032F98F /* FeedCollectionViewCell.swift */; };
 		575279F624C796940032F98F /* FeedCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 575279F424C796940032F98F /* FeedCollectionViewCell.xib */; };
 		575279FC24CA0EAC0032F98F /* FollowedByUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 575279FB24CA0EAC0032F98F /* FollowedByUser.swift */; };
-		575279FE24CA10450032F98F /* FollowingUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 575279FD24CA10450032F98F /* FollowingUser.swift */; };
 		5757281E24D0911E00C5D007 /* FriendViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5757281D24D0911E00C5D007 /* FriendViewController.swift */; };
 		5799545024C5864600483447 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5799544F24C5864600483447 /* ProfileViewController.swift */; };
 		5799545224C58FFF00483447 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5799545124C58FFF00483447 /* Launch Screen.storyboard */; };
@@ -49,7 +48,6 @@
 		575279F324C796940032F98F /* FeedCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCollectionViewCell.swift; sourceTree = "<group>"; };
 		575279F424C796940032F98F /* FeedCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FeedCollectionViewCell.xib; sourceTree = "<group>"; };
 		575279FB24CA0EAC0032F98F /* FollowedByUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowedByUser.swift; sourceTree = "<group>"; };
-		575279FD24CA10450032F98F /* FollowingUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowingUser.swift; sourceTree = "<group>"; };
 		5757281D24D0911E00C5D007 /* FriendViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendViewController.swift; sourceTree = "<group>"; };
 		5799544F24C5864600483447 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		5799545124C58FFF00483447 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = SOURCE_ROOT; };
@@ -80,7 +78,6 @@
 			children = (
 				575279FB24CA0EAC0032F98F /* FollowedByUser.swift */,
 				57D91E0924CB7C0B00F323FD /* FollowedByUserTableViewCell.swift */,
-				575279FD24CA10450032F98F /* FollowingUser.swift */,
 			);
 			path = Followers;
 			sourceTree = "<group>";
@@ -250,7 +247,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				5757281E24D0911E00C5D007 /* FriendViewController.swift in Sources */,
-				575279FE24CA10450032F98F /* FollowingUser.swift in Sources */,
 				575279FC24CA0EAC0032F98F /* FollowedByUser.swift in Sources */,
 				5799545024C5864600483447 /* ProfileViewController.swift in Sources */,
 				57D91E0724CB4BA800F323FD /* NewProfileCollectionViewCell.swift in Sources */,
