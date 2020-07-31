@@ -14,7 +14,9 @@ var arrayOfPostsWithoutNil = [Post]()
 
 let post = DataProviders.shared.postsDataProvider
 
-class FeedViewController: UIViewController {
+
+
+class FeedViewController: UIViewController, UIGestureRecognizerDelegate {
     
     
     @IBOutlet weak var feedCollectionView: UICollectionView!
@@ -69,14 +71,29 @@ extension FeedViewController: UICollectionViewDataSource, UICollectionViewDelega
         cell.postImage?.image = post.image
         cell.currentFriend?.id = post.author
         cell.currentPost = post
+        
+        let touchUserAvatar = UITapGestureRecognizer(target: self, action: #selector(tapAvatar(sender:)))
+        //---
+        touchUserAvatar.delegate = self
+        //---
+        cell.userAvatar?.isUserInteractionEnabled = true
+        cell.userAvatar?.addGestureRecognizer(touchUserAvatar)
+//        if let cell = cell.userAvatar {
+//            cell.isUserInteractionEnabled = true
+//            cell.addGestureRecognizer(touchUserAvatar)
+//        }
+        
         return cell
     }
     
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        guard let destination = segue.destination as? FeedCollectionViewCell else {return}
-//        destination.currentFriend = 
-//    }
+    @objc func tapAvatar(sender: UITapGestureRecognizer) {
+        
+        let vc = FriendViewController()
+        present(vc, animated: true, completion: nil)
+//        show(vc, sender: self)
+    }
     
+
     
 }
 
@@ -84,7 +101,7 @@ extension FeedViewController: UICollectionViewDelegateFlowLayout {
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let size = CGSize(width: UIScreen.main.bounds.size.width/1.0, height: 600)
-        return size//CGSize(width: 415, height: 600)
+        return size
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {

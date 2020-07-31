@@ -20,6 +20,8 @@ class FriendViewController: UIViewController {
     var currentFriend: User?
     var unwrappedArrayOfFriendPost = [Post]()
     
+    static let identifire = "FriendViewController"
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         friendCollectionView.delegate = self
@@ -46,6 +48,19 @@ class FriendViewController: UIViewController {
         layout.minimumLineSpacing = 0
         friendCollectionView.setCollectionViewLayout(layout, animated: true)
     }
+    
+//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//        if segue.identifier == "followersFrom" {
+//            let destination = segue.destination as? FollowedByUser
+//            destination?.friends = followingUser
+//        } else if segue.identifier == "followingFrom" {
+//            let destination = segue.destination as? FollowedByUser
+//            destination?.friends = followedByUser
+//        }
+//    }
+    
+
+    
 }
 
 extension FriendViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {

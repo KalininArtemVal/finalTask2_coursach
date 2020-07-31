@@ -9,7 +9,10 @@
 import UIKit
 import DataProvider
 
+
 class FeedCollectionViewCell: UICollectionViewCell {
+    
+    
 
     //userName
     @IBOutlet weak var userAvatar: UIImageView?
@@ -31,13 +34,12 @@ class FeedCollectionViewCell: UICollectionViewCell {
     var currentFriend: User?
     var currentPost: Post?
     
-    
-    
     override func awakeFromNib() {
         super.awakeFromNib()
         //Тап на аватар и имя
         let touchUserAvatar = UITapGestureRecognizer(target: self, action: #selector(tapAvatar(sender:)))
-        
+        userAvatar?.isUserInteractionEnabled = true
+        userAvatar?.addGestureRecognizer(touchUserAvatar)
         //Ставим лайк от маленького сердца
         let touchLitleHeart = UITapGestureRecognizer(target: self, action: #selector(tapHeart(sender:)))
         touchLitleHeart.numberOfTapsRequired = 1
@@ -78,12 +80,6 @@ class FeedCollectionViewCell: UICollectionViewCell {
     }
     
      @objc func tapAvatar(sender: UITapGestureRecognizer) {
-        
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc = storyboard.instantiateViewController(withIdentifier: FriendCollectionViewCell.identifire) as UIViewController
-        
-        
-//        let vc = FriendCollectionViewCell()
         
     }
     
