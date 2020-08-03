@@ -10,7 +10,8 @@ import UIKit
 import DataProvider
 
 protocol CellDelegate: UIViewController {
-    func didTap(OnAvatarIn cell: UICollectionViewCell)
+    func didTap(OnAvatarIn cell: UICollectionViewCell, currentPost: Post)
+//    func didTap(OnAvatarIn cell: UICollectionViewCell)
 }
 
 class FeedCollectionViewCell: UICollectionViewCell {
@@ -84,7 +85,9 @@ class FeedCollectionViewCell: UICollectionViewCell {
         
         @objc func tapAvatar(sender: UITapGestureRecognizer) {
             let vc = FeedCollectionViewCell()
-            delegate?.didTap(OnAvatarIn: vc)
+            guard let currentPost = currentPost else {return}
+            delegate?.didTap(OnAvatarIn: vc, currentPost: currentPost)
+//            delegate?.didTap(OnAvatarIn: vc)
             
         }
     

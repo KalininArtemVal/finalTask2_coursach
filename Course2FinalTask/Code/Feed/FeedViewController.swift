@@ -22,6 +22,9 @@ class FeedViewController: UIViewController, UIGestureRecognizerDelegate {
     
     @IBOutlet weak var feedCollectionView: UICollectionView!
     
+//    var userOfCurrentPost = currentUser
+    var userOfCurrentPost: User?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setLayout()
@@ -81,42 +84,32 @@ extension FeedViewController: UICollectionViewDataSource, UICollectionViewDelega
 }
 
 extension FeedViewController: UICollectionViewDelegateFlowLayout, CellDelegate {
-    func didTap(OnAvatarIn cell: UICollectionViewCell) {
+    
+    func didTap(OnAvatarIn cell: UICollectionViewCell, currentPost: Post) {
         performSegue(withIdentifier: "showFriend", sender: self)
+        //Понимаю, что это не элегантное решение, и ресурсозатрантое, но оно единственное, которое сработало))
+        if let follow = followingUser {
+            for user in follow {
+                if user.id == currentPost.author {
+                    userOfCurrentPost = user
+                }
+            }
+        }
+        
+        if let follow = followedByUser {
+            for user in follow {
+                if user.id == currentPost.author {
+                    userOfCurrentPost = user
+                }
+            }
+        }
         
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        var currentUserOfPost: User?
-//        if segue.identifier == "showFriend" {
-            let detailVC = segue.destination as! FriendViewController
+        guard let detailVC = segue.destination as? FriendViewController else {return}
+        detailVC.currentFriend = userOfCurrentPost
         
-//        detailVC.currentFriend = currentUser
-        
-//        if let indexPath = feedCollectionView.indexPathsForSelectedItems?.first {
-//            let cell = feedCollectionView.cellForItem(at: indexPath) as? FeedCollectionViewCell
-//            detailVC.currentFriend = cell?.currentFriend
-//        }
-        
-//        let indexPath = feedCollectionView.indexPathsForVisibleItems
-        
-        
-//        if let indexPath = feedCollectionView.indexPathsForVisibleItems.first {
-//            let aCell = feedCollectionView.cellForItem(at: indexPath) as? FeedCollectionViewCell
-//        }
-            
-//                detailVC.currentFriend = currentUser
-            
-        
-            
-        
-//        let indexPath = feedCollectionView.indexPathsForSelectedItems
-//        currentUserOfPost?.id = arrayOfPosts
-//        print(arrayOfPosts[indexPath!.row].authorUsername)
-//        if let currentUserPost = currentUserOfPost {
-//            detailVC.currentFriend = currentUserPost
-//        }
-//        }
     }
     
 

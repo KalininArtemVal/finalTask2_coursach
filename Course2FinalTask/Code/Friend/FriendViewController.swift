@@ -29,6 +29,11 @@ class FriendViewController: UIViewController {
         setUser()
         friendCollectionView.register(FriendCollectionViewCell.nib(), forCellWithReuseIdentifier: FriendCollectionViewCell.identifire)
         setLayout()
+        friendCollectionView.reloadData()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        friendCollectionView.reloadData()
     }
     
     @objc func tapFollowers(sender: UITapGestureRecognizer) {
@@ -81,7 +86,7 @@ extension FriendViewController: UICollectionViewDelegate, UICollectionViewDataSo
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "friendCell", for: indexPath) as? FriendCollectionViewCell else {return fatalError() as! UICollectionViewCell}
-        
+        //----- ошибочка
         if let currentFriend = currentFriend {
             let arrayOfCurrentFriendPost = post.findPosts(by: currentFriend.id)
             if let currentFriend = arrayOfCurrentFriendPost?[indexPath.row] {
