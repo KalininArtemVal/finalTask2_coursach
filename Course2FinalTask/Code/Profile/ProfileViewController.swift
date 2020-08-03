@@ -75,9 +75,7 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if let arrayOfCurrentPost = arrayOfCurrentPost {
             for post in arrayOfCurrentPost {
-                if post != nil {
                     arrayOfCurrentPostUnwrapped.append(post)
-                }
             }
         }
         return arrayOfCurrentPostUnwrapped.count
@@ -88,13 +86,13 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "profileCell", for: indexPath) as? NewProfileCollectionViewCell else {fatalError("hogeCell not registered.")}
         if let arrayOfCurrentPost = arrayOfCurrentPost {
             for post in arrayOfCurrentPost {
-                if post != nil {
+//                if post != nil {
                     arrayOfCurrentPostUnwrapped.append(post)
                     print(arrayOfCurrentPostUnwrapped)
                     let post = arrayOfCurrentPostUnwrapped[indexPath.row]
                     cell.configue(with: post.image)
                     return cell
-                }
+//                }
             }
             let post = arrayOfCurrentPostUnwrapped[indexPath.row]
             cell.configue(with: post.image)

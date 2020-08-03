@@ -9,12 +9,15 @@
 import UIKit
 import DataProvider
 
+protocol CellDelegate: UIViewController {
+    func didTap(OnAvatarIn cell: UICollectionViewCell)
+}
 
 class FeedCollectionViewCell: UICollectionViewCell {
     
     
-
-    //userName
+    weak var delegate: CellDelegate?
+    
     @IBOutlet weak var userAvatar: UIImageView?
     @IBOutlet weak var userName: UILabel!
     
@@ -36,16 +39,19 @@ class FeedCollectionViewCell: UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        
         //Тап на аватар и имя
         let touchUserAvatar = UITapGestureRecognizer(target: self, action: #selector(tapAvatar(sender:)))
         userAvatar?.isUserInteractionEnabled = true
         userAvatar?.addGestureRecognizer(touchUserAvatar)
+        
         //Ставим лайк от маленького сердца
         let touchLitleHeart = UITapGestureRecognizer(target: self, action: #selector(tapHeart(sender:)))
         touchLitleHeart.numberOfTapsRequired = 1
         bigHeart.isHidden = true
         imageHeartOfLike?.isUserInteractionEnabled = true
         imageHeartOfLike?.addGestureRecognizer(touchLitleHeart)
+        
         //устанавливаем большое сердце
         let touchPost = UITapGestureRecognizer(target: self, action: #selector(tapPost(sender:)))
         touchPost.numberOfTapsRequired = 2
@@ -59,15 +65,11 @@ class FeedCollectionViewCell: UICollectionViewCell {
         guard var countLike = currentPost?.likedByCount else {return}
         if currentPost?.currentUserLikesThisPost == false {
             currentPost?.currentUserLikesThisPost = true
-//            bigHeart.isHidden = false
             imageHeartOfLike.image = #imageLiteral(resourceName: "like")
             imageHeartOfLike.tintColor = .systemBlue
             countLike += voice
             countOfLikes?.text = String(countLike)
             currentPost?.likedByCount = countLike
-//            UIView.animate(withDuration: 2) {
-//                self.bigHeart.layer.opacity = 0.0
-//            }
         } else {
             currentPost?.currentUserLikesThisPost = false
             imageHeartOfLike.image = #imageLiteral(resourceName: "like")
@@ -79,9 +81,13 @@ class FeedCollectionViewCell: UICollectionViewCell {
         }
     }
     
-     @objc func tapAvatar(sender: UITapGestureRecognizer) {
         
-    }
+        @objc func tapAvatar(sender: UITapGestureRecognizer) {
+            let vc = FeedCollectionViewCell()
+            delegate?.didTap(OnAvatarIn: vc)
+            
+        }
+    
     
     @objc func tapPost(sender: UITapGestureRecognizer) {
         let voice = 1

@@ -16,6 +16,7 @@ let post = DataProviders.shared.postsDataProvider
 
 
 
+
 class FeedViewController: UIViewController, UIGestureRecognizerDelegate {
     
     
@@ -45,6 +46,8 @@ class FeedViewController: UIViewController, UIGestureRecognizerDelegate {
 
 
 extension FeedViewController: UICollectionViewDataSource, UICollectionViewDelegate {
+
+    
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return arrayOfPosts.count
@@ -71,33 +74,51 @@ extension FeedViewController: UICollectionViewDataSource, UICollectionViewDelega
         cell.postImage?.image = post.image
         cell.currentFriend?.id = post.author
         cell.currentPost = post
-        
-        let touchUserAvatar = UITapGestureRecognizer(target: self, action: #selector(tapAvatar(sender:)))
-        //---
-        touchUserAvatar.delegate = self
-        //---
-        cell.userAvatar?.isUserInteractionEnabled = true
-        cell.userAvatar?.addGestureRecognizer(touchUserAvatar)
-//        if let cell = cell.userAvatar {
-//            cell.isUserInteractionEnabled = true
-//            cell.addGestureRecognizer(touchUserAvatar)
-//        }
-        
+        cell.delegate = self
         return cell
     }
     
-    @objc func tapAvatar(sender: UITapGestureRecognizer) {
-        
-        let vc = FriendViewController()
-        present(vc, animated: true, completion: nil)
-//        show(vc, sender: self)
-    }
-    
-
-    
 }
 
-extension FeedViewController: UICollectionViewDelegateFlowLayout {
+extension FeedViewController: UICollectionViewDelegateFlowLayout, CellDelegate {
+    func didTap(OnAvatarIn cell: UICollectionViewCell) {
+        performSegue(withIdentifier: "showFriend", sender: self)
+        
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        var currentUserOfPost: User?
+//        if segue.identifier == "showFriend" {
+            let detailVC = segue.destination as! FriendViewController
+        
+//        detailVC.currentFriend = currentUser
+        
+//        if let indexPath = feedCollectionView.indexPathsForSelectedItems?.first {
+//            let cell = feedCollectionView.cellForItem(at: indexPath) as? FeedCollectionViewCell
+//            detailVC.currentFriend = cell?.currentFriend
+//        }
+        
+//        let indexPath = feedCollectionView.indexPathsForVisibleItems
+        
+        
+//        if let indexPath = feedCollectionView.indexPathsForVisibleItems.first {
+//            let aCell = feedCollectionView.cellForItem(at: indexPath) as? FeedCollectionViewCell
+//        }
+            
+//                detailVC.currentFriend = currentUser
+            
+        
+            
+        
+//        let indexPath = feedCollectionView.indexPathsForSelectedItems
+//        currentUserOfPost?.id = arrayOfPosts
+//        print(arrayOfPosts[indexPath!.row].authorUsername)
+//        if let currentUserPost = currentUserOfPost {
+//            detailVC.currentFriend = currentUserPost
+//        }
+//        }
+    }
+    
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let size = CGSize(width: UIScreen.main.bounds.size.width/1.0, height: 600)

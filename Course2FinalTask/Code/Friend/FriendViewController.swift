@@ -57,7 +57,6 @@ class FriendViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "friendFollowing" {
             let destination = segue.destination as? FollowedByUser
-            
             let currentUserFollowers = user.usersFollowedByUser(with: currentFriend?.id ?? currentUser.id)
             destination?.friends = currentUserFollowers
         } else if segue.identifier == "friendFollowers" {
@@ -66,18 +65,14 @@ class FriendViewController: UIViewController {
             destination?.friends = currentUserFollowing
         }
     }
-    
-
-    
 }
 
 extension FriendViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        var arrayOfCurrentFriendPost = post.findPosts(by: currentFriend!.id)
-        if let arrayOfCurrentFriendPost = arrayOfCurrentFriendPost {
-            for i in arrayOfCurrentFriendPost {
-                if i != nil {
-                    unwrappedArrayOfFriendPost.append(i)
+        if let currentFriend = currentFriend {
+            if let arrayOfCurrentFriendPost = post.findPosts(by: currentFriend.id) {
+                for i in arrayOfCurrentFriendPost {
+                        unwrappedArrayOfFriendPost.append(i)
                 }
             }
         }
@@ -86,10 +81,13 @@ extension FriendViewController: UICollectionViewDelegate, UICollectionViewDataSo
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "friendCell", for: indexPath) as? FriendCollectionViewCell else {return fatalError() as! UICollectionViewCell}
-        var arrayOfCurrentFriendPost = post.findPosts(by: currentFriend!.id)
-        if let currentFriend = arrayOfCurrentFriendPost?[indexPath.row] {
-            cell.friendImageView.image = currentFriend.image
-            return cell
+        
+        if let currentFriend = currentFriend {
+            let arrayOfCurrentFriendPost = post.findPosts(by: currentFriend.id)
+            if let currentFriend = arrayOfCurrentFriendPost?[indexPath.row] {
+                cell.friendImageView.image = currentFriend.image
+                return cell
+            }
         }
         return cell
     }
@@ -101,7 +99,5 @@ extension FriendViewController: UICollectionViewDelegate, UICollectionViewDataSo
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: UIScreen.main.bounds.size.width/3.0, height: UIScreen.main.bounds.size.width/3.0)
     }
-    
-    
 }
 

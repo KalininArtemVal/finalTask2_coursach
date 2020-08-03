@@ -19,7 +19,7 @@
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="mwi-eb-Ebc">
                                 <rect key="frame" x="0.0" y="174" width="414" height="639"/>
-                                <color key="backgroundColor" red="0.930749253570475" green="0.93943693444755128" blue="0.97294992208480835" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Bcu-Kc-0d4">
                                     <size key="itemSize" width="128" height="128"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -57,7 +57,7 @@
                                         <rect key="frame" x="0.0" y="0.0" width="69" height="29"/>
                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="14"/>
                                         <state key="normal" title="Followers:">
-                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <color key="titleColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
                                         </state>
                                         <connections>
                                             <segue destination="Xlv-Mm-EJf" kind="show" identifier="followers" id="u14-nR-sYO"/>
@@ -78,7 +78,7 @@
                                         <rect key="frame" x="0.0" y="0.0" width="69" height="29"/>
                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="14"/>
                                         <state key="normal" title="Following:">
-                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <color key="titleColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
                                         </state>
                                         <connections>
                                             <segue destination="Xlv-Mm-EJf" kind="show" identifier="following" id="NfC-oB-lsA"/>
@@ -129,11 +129,11 @@
             <objects>
                 <viewController id="Xlv-Mm-EJf" customClass="FollowedByUser" customModule="Course2FinalTask" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="YKe-2U-SuT">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Y4J-kV-cZe">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
+                                <rect key="frame" x="0.0" y="140" width="414" height="673"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="followedCell" rowHeight="45" id="mYL-6n-QcC" customClass="FollowedByUserTableViewCell" customModule="Course2FinalTask" customModuleProvider="target">
@@ -191,7 +191,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8O3-Z8-V1w" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2259" y="271"/>
+            <point key="canvasLocation" x="2268" y="608"/>
         </scene>
         <!--useName-->
         <scene sceneID="6Q9-Rk-67i">
@@ -202,15 +202,15 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="iYs-fR-s8b">
-                                <rect key="frame" x="8" y="8" width="70" height="70"/>
+                                <rect key="frame" x="8" y="148" width="70" height="70"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="70" id="0Y1-Re-DFG"/>
                                     <constraint firstAttribute="width" constant="70" id="VUh-Ca-Yhj"/>
                                 </constraints>
                             </imageView>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="LdI-Ck-YCu">
-                                <rect key="frame" x="0.0" y="86" width="414" height="756"/>
-                                <color key="backgroundColor" red="0.95230646210000003" green="0.91838560184245976" blue="0.83889468914188914" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <rect key="frame" x="0.0" y="226" width="414" height="670"/>
+                                <color key="backgroundColor" systemColor="systemGroupedBackgroundColor" red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="CKT-vI-GCt">
                                     <size key="itemSize" width="128" height="128"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -229,13 +229,13 @@
                                 </cells>
                             </collectionView>
                             <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="t04-9x-HCb">
-                                <rect key="frame" x="315.5" y="49" width="82.5" height="29"/>
+                                <rect key="frame" x="315.5" y="189" width="82.5" height="29"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UGC-Be-hEv">
                                         <rect key="frame" x="0.0" y="0.0" width="65" height="29"/>
                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="14"/>
                                         <state key="normal" title="Following">
-                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <color key="titleColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
                                         </state>
                                         <connections>
                                             <segue destination="Xlv-Mm-EJf" kind="show" identifier="friendFollowing" id="Wk0-ct-mti"/>
@@ -250,19 +250,19 @@
                                 </subviews>
                             </stackView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="userName" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AdD-MZ-JJY">
-                                <rect key="frame" x="86" y="8" width="66" height="17"/>
+                                <rect key="frame" x="86" y="148" width="66" height="17"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="cYY-tR-z87">
-                                <rect key="frame" x="86" y="49" width="82.5" height="29"/>
+                                <rect key="frame" x="86" y="189" width="82.5" height="29"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tc4-H6-xb6">
                                         <rect key="frame" x="0.0" y="0.0" width="65" height="29"/>
                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="14"/>
                                         <state key="normal" title="Followers">
-                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <color key="titleColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
                                         </state>
                                         <connections>
                                             <segue destination="Xlv-Mm-EJf" kind="show" identifier="friendFollowers" id="9kg-8P-IvA"/>
@@ -317,7 +317,7 @@
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" springLoaded="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wxK-9Q-g8q">
                                 <rect key="frame" x="0.0" y="88" width="414" height="725"/>
-                                <color key="backgroundColor" red="0.81051505032973703" green="0.80462227776825801" blue="0.83952649111675126" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="e3R-4o-krl">
                                     <size key="itemSize" width="128" height="128"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -348,6 +348,7 @@
                     <navigationItem key="navigationItem" title="Feed" id="T4X-k6-PFb"/>
                     <connections>
                         <outlet property="feedCollectionView" destination="wxK-9Q-g8q" id="d8A-tn-WBF"/>
+                        <segue destination="35m-cl-f69" kind="show" identifier="showFriend" id="coc-l4-3Ol"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3an-8W-v24" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -378,8 +379,8 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="K3E-5o-V6h" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Profile" image="profile" id="K2I-1G-KCv"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="4Wj-Qb-Znq">
-                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="4Wj-Qb-Znq">
+                        <rect key="frame" x="0.0" y="44" width="414" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -397,8 +398,8 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="htv-uT-QRB" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Feed" image="feed" id="a91-Sy-LeO"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="ulW-ud-TX7">
-                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="ulW-ud-TX7">
+                        <rect key="frame" x="0.0" y="44" width="414" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -412,6 +413,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
+        <segue reference="coc-l4-3Ol"/>
         <segue reference="Wk0-ct-mti"/>
     </inferredMetricsTieBreakers>
     <resources>

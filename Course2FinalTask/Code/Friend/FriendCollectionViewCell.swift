@@ -20,14 +20,11 @@ class FriendCollectionViewCell: UICollectionViewCell {
         super.awakeFromNib()
     }
     
-    
     public func configue(with image: UIImage) {
         friendImageView.image = image
     }
     
     static func nib() -> UINib {
         return UINib(nibName: "FriendCollectionViewCell", bundle: nil)
-    }
-    
-    
+    } 
 }

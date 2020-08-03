@@ -12,7 +12,6 @@ class NewProfileCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var imageView: UIImageView!
     
-
     static let identifire = "profileCell"
     
     public func configue(with image: UIImage) {
