@@ -9,7 +9,7 @@
 import UIKit
 import DataProvider
 
-var allUsers = [User]()
+//MARK: - View Controller of Friend (экран ДРУГА)
 
 class FriendViewController: UIViewController {
     
@@ -20,37 +20,22 @@ class FriendViewController: UIViewController {
     @IBOutlet weak var friendCollectionView: UICollectionView!
     
     var currentFriend: User?
-    
     var unwrappedArrayOfFriendPost = [Post]()
     
     static let identifire = "FriendViewController"
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        friendCollectionView.delegate = self
-        friendCollectionView.dataSource = self
         setUser()
-        friendCollectionView.register(FriendCollectionViewCell.nib(), forCellWithReuseIdentifier: FriendCollectionViewCell.identifire)
         setLayout()
         friendCollectionView.reloadData()
-        createArrayOfAllUsers()
+        friendCollectionView.delegate = self
+        friendCollectionView.dataSource = self
+        friendCollectionView.register(FriendCollectionViewCell.nib(), forCellWithReuseIdentifier: FriendCollectionViewCell.identifire)
     }
     
-    func createArrayOfAllUsers() {
-        if let follow = followingUser {
-            for user in follow {
-                    allUsers.append(user)
-            }
-        }
-        if let follow = followedByUser {
-            for user in follow {
-                    allUsers.append(user)
-            }
-        }
-    }
-    
+    //MARK: - Make Scroll (Делаем скрол)
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-
         var rect = self.view.frame
         rect.origin.y =  -scrollView.contentOffset.y
         self.view.frame = rect
@@ -103,7 +88,7 @@ extension FriendViewController: UICollectionViewDelegate, UICollectionViewDataSo
         if let currentFriend = currentFriend {
             if let arrayOfCurrentFriendPost = post.findPosts(by: currentFriend.id) {
                 for i in arrayOfCurrentFriendPost {
-                        unwrappedArrayOfFriendPost.append(i)
+                    unwrappedArrayOfFriendPost.append(i)
                 }
             }
         }

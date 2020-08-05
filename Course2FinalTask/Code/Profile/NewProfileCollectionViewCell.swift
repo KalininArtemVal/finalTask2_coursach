@@ -8,6 +8,7 @@
 
 import UIKit
 
+//MARK: - Collection View Cell of Current User (Ячейка коллекции Текущего пользователя)
 class NewProfileCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var imageView: UIImageView!

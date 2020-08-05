@@ -9,11 +9,14 @@
 import UIKit
 import DataProvider
 
+//MARK: - CellDelegate (для переходов по тапу на аватра/имя/лайки)
 protocol CellDelegate: UIViewController {
     func didTap(OnAvatarIn cell: UICollectionViewCell, currentPost: Post)
     func didTapOnLikes(in cell: UICollectionViewCell, currentPost: Post)
 }
 
+
+//MARK: - Cell Feed (Ячейка коллекции)
 class FeedCollectionViewCell: UICollectionViewCell {
     
     
@@ -21,16 +24,12 @@ class FeedCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var userAvatar: UIImageView?
     @IBOutlet weak var userName: UILabel!
-    
     @IBOutlet weak var dateOfPublishing: UILabel?
     @IBOutlet weak var postImage: UIImageView?
-    
     @IBOutlet weak var countOfLikes: UILabel!
-    
     @IBOutlet weak var heartOfLike: UIButton?
     @IBOutlet weak var descriptionTextLable: UILabel?
     @IBOutlet weak var imageHeartOfLike: UIImageView!
-    
     @IBOutlet weak var bigHeart: UIImageView!
     
     static let identifire = "feedCell"
@@ -43,7 +42,7 @@ class FeedCollectionViewCell: UICollectionViewCell {
         setTaps()
     }
     
-// MARK: - Set Tap Recognizer
+    // MARK: - Set Tap Recognizer
     func setTaps() {
         //Тап на количество лайков
         let touchOnCountOfLikes = UITapGestureRecognizer(target: self, action: #selector(tapLike(sender:)))
@@ -80,7 +79,6 @@ class FeedCollectionViewCell: UICollectionViewCell {
         let vc = FeedCollectionViewCell()
         guard let currentPost = currentPost else {return}
         delegate?.didTapOnLikes(in: vc, currentPost: currentPost)
-        print("HI")
     }
     
     //функция тап на сердечко
@@ -105,7 +103,7 @@ class FeedCollectionViewCell: UICollectionViewCell {
         }
     }
     
-      //функция тап на Аватар
+    //функция тап на Аватар
     @objc func tapAvatar(sender: UITapGestureRecognizer) {
         let vc = FeedCollectionViewCell()
         guard let currentPost = currentPost else {return}
@@ -134,5 +132,5 @@ class FeedCollectionViewCell: UICollectionViewCell {
         return UINib(nibName: "FeedCollectionViewCell", bundle: nil)
     }
     
-
+    
 }

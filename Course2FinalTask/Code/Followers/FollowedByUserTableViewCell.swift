@@ -8,6 +8,7 @@
 
 import UIKit
 
+//MARK: - Table View Cell (Ячейка Таблицы)
 class FollowedByUserTableViewCell: UITableViewCell {
 
     @IBOutlet weak var userPhoto: UIImageView!

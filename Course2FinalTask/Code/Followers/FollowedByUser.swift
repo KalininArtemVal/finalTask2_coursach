@@ -10,9 +10,12 @@ import Foundation
 import UIKit
 import DataProvider
 
+//MARK: - Followed/Following (Подписки/Подписчики Текущего пользователя)
 let followedByUser = user.usersFollowedByUser(with: currentUser.id)
 let followingUser = user.usersFollowingUser(with: currentUser.id)
 
+
+//MARK: - Table View (Таблица)
 class FollowedByUser: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
@@ -35,8 +38,8 @@ extension FollowedByUser: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "followedCell", for: indexPath) as! FollowedByUserTableViewCell
         guard let friend = friends?[indexPath.row] else {return fatalError("nothing here") as! UITableViewCell}
+        let cell = tableView.dequeueReusableCell(withIdentifier: "followedCell", for: indexPath) as! FollowedByUserTableViewCell
         cell.userName.text = friend.fullName
         cell.userPhoto.image = friend.avatar
         cell.userPhoto.layer.cornerRadius = cell.userPhoto.frame.size.width / 2

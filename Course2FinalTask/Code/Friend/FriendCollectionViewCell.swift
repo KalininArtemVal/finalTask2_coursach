@@ -8,7 +8,7 @@
 
 import UIKit
 
-
+//MARK: - Collection View Cell of Friend (Ячейка коллекции ДРУГА)
 
 class FriendCollectionViewCell: UICollectionViewCell {
     

@@ -9,24 +9,22 @@
 import UIKit
 import DataProvider
 
+//MARK: - вызываем user
 let user = DataProviders.shared.usersDataProvider
 let currentUser = user.currentUser()
 
+//MARK: - Profile of Сurrent User (Страница текущего пользователя)
 class ProfileViewController: UIViewController {
     
     @IBOutlet weak var imageLable: UIImageView!
     @IBOutlet weak var nameLable: UILabel!
-    
     @IBOutlet weak var countOfFollowers: UILabel!
     @IBOutlet weak var countOfFollowing: UILabel!
-    
     @IBOutlet weak var collectionView: UICollectionView!
     
     var animatoin: UIViewPropertyAnimator!
     var arrayOfCurrentPost = post.findPosts(by: currentUser.id)//[Post]()
     var arrayOfCurrentPostUnwrapped = [Post]()
-
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,12 +38,10 @@ class ProfileViewController: UIViewController {
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-
         var rect = self.view.frame
         rect.origin.y =  -scrollView.contentOffset.y
         self.view.frame = rect
     }
-
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "followers" {
@@ -70,7 +66,7 @@ class ProfileViewController: UIViewController {
         layout.minimumLineSpacing = 0
         collectionView.setCollectionViewLayout(layout, animated: true)
     }
-
+    
     private func newMan() {
         imageLable.image = currentUser.avatar
         imageLable.layer.cornerRadius = imageLable.frame.size.width / 2
@@ -87,24 +83,21 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if let arrayOfCurrentPost = arrayOfCurrentPost {
             for post in arrayOfCurrentPost {
-                    arrayOfCurrentPostUnwrapped.append(post)
+                arrayOfCurrentPostUnwrapped.append(post)
             }
         }
         return arrayOfCurrentPostUnwrapped.count
     }
-
+    
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "profileCell", for: indexPath) as? NewProfileCollectionViewCell else {fatalError("hogeCell not registered.")}
         if let arrayOfCurrentPost = arrayOfCurrentPost {
             for post in arrayOfCurrentPost {
-//                if post != nil {
-                    arrayOfCurrentPostUnwrapped.append(post)
-                    print(arrayOfCurrentPostUnwrapped)
-                    let post = arrayOfCurrentPostUnwrapped[indexPath.row]
-                    cell.configue(with: post.image)
-                    return cell
-//                }
+                arrayOfCurrentPostUnwrapped.append(post)
+                let post = arrayOfCurrentPostUnwrapped[indexPath.row]
+                cell.configue(with: post.image)
+                return cell
             }
             let post = arrayOfCurrentPostUnwrapped[indexPath.row]
             cell.configue(with: post.image)
@@ -119,7 +112,7 @@ extension ProfileViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: UIScreen.main.bounds.size.width/3.0, height: UIScreen.main.bounds.size.width/3.0)
     }

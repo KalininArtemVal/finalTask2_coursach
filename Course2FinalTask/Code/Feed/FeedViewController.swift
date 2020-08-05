@@ -9,12 +9,13 @@
 import UIKit
 import DataProvider
 
+//MARK: - вызываем post
 let arrayOfPosts = post.feed()
 var arrayOfPostsWithoutNil = [Post]()
-
 let post = DataProviders.shared.postsDataProvider
 
 
+//MARK: - Feed (Лента)
 class FeedViewController: UIViewController, UIGestureRecognizerDelegate {
     
     
@@ -46,8 +47,6 @@ class FeedViewController: UIViewController, UIGestureRecognizerDelegate {
 
 
 extension FeedViewController: UICollectionViewDataSource, UICollectionViewDelegate {
-    
-    
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return arrayOfPosts.count
@@ -82,49 +81,35 @@ extension FeedViewController: UICollectionViewDataSource, UICollectionViewDelega
 
 extension FeedViewController: UICollectionViewDelegateFlowLayout, CellDelegate {
     
-    
-    // MARK: - didTap on Likes
+    // MARK: - didTap on Likes (Переход по тапу на кол-во Лайков)
     func didTapOnLikes(in cell: UICollectionViewCell, currentPost: Post) {
         
         guard let arrayOfLikesByUsers = post.usersLikedPost(with: currentPost.id) else {return}
-        
         var unwrapdeArrayOfLikesByUsers = [User]()
         
-        for usersID in arrayOfLikesByUsers {
-            if let array = followingUser {
-                for user in array {
-                    if user.id == usersID {
-                        unwrapdeArrayOfLikesByUsers.append(user)
-                    }
-                }
-            }
-        }
-        for usersID in arrayOfLikesByUsers {
-            if let array = followedByUser {
-                for user in array {
-                    if user.id == usersID {
-                        unwrapdeArrayOfLikesByUsers.append(user)
-                    }
-                }
+        for userID in arrayOfLikesByUsers {
+            if let findingUser = user.user(with: userID) {
+                unwrapdeArrayOfLikesByUsers.append(findingUser)
             }
         }
         
+//        if currentPost.currentUserLikesThisPost == true {
+//            unwrapdeArrayOfLikesByUsers.append(currentUser)
+//        }
         
         if #available(iOS 13.0, *) {
             guard let friendViewController = storyboard?.instantiateViewController(identifier: "FollowedByUser") as? FollowedByUser else { return }
-            
+            friendViewController.mainTitle = "Likes"
             friendViewController.friends = unwrapdeArrayOfLikesByUsers
-            print(unwrapdeArrayOfLikesByUsers.count)
             self.show(friendViewController, sender: self)
         } else {
-            // Fallback on earlier versions
+            print("ERRoR")
         }
         
     }
     
-    // MARK: - didTap on Avatar
+    // MARK: - didTap on Avatar (Переход по тапу на Аватар/Имя)
     func didTap(OnAvatarIn cell: UICollectionViewCell, currentPost: Post) {
-        //Наверное, это не элегантное решение, и ресурсозатрантое, но оно единственное, которое сработало))
         if let follow = followingUser {
             for user in follow {
                 if user.id == currentPost.author {
@@ -146,9 +131,8 @@ extension FeedViewController: UICollectionViewDelegateFlowLayout, CellDelegate {
             secondViewController.currentFriend = userOfCurrentPost
             self.show(secondViewController, sender: self)
         } else {
-            // Fallback on earlier versions
+            print("ERRoR")
         }
-        
     }
     
     
