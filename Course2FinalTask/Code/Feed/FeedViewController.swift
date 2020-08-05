@@ -56,6 +56,13 @@ extension FeedViewController: UICollectionViewDataSource, UICollectionViewDelega
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "feedCell", for: indexPath) as? FeedCollectionViewCell else {fatalError("ERRoR!")}
         
         let post = arrayOfPosts[indexPath.item]
+        //Устанавлиывем дату
+        let dateFormatter = DateFormatter()
+        let createTime = post.createdTime
+        dateFormatter.dateStyle = .medium
+        dateFormatter.timeStyle = .medium
+        dateFormatter.doesRelativeDateFormatting = true
+        let time = dateFormatter.string(from: createTime)
         
         if post.currentUserLikesThisPost == true {
             cell.imageHeartOfLike.image = #imageLiteral(resourceName: "like")
@@ -67,7 +74,7 @@ extension FeedViewController: UICollectionViewDataSource, UICollectionViewDelega
         cell.userName?.text = post.authorUsername
         cell.countOfLikes?.text = String(post.likedByCount)
         cell.descriptionTextLable?.text = post.description
-        cell.dateOfPublishing?.text = post.createdTime.description
+        cell.dateOfPublishing?.text = time
         cell.userAvatar?.image = post.authorAvatar
         cell.userAvatar?.layer.cornerRadius = (cell.userAvatar?.frame.size.width)! / 2
         cell.postImage?.image = post.image
