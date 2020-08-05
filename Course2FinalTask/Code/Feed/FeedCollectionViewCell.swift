@@ -122,9 +122,20 @@ class FeedCollectionViewCell: UICollectionViewCell {
             countLike += voice
             currentPost?.likedByCount = countLike
             countOfLikes?.text = String(countLike)
+            
+            let animation = CAKeyframeAnimation(keyPath: "transform.scale")
+            animation.values = [0.0, 1.0, 1.0, 0.0].map { NSNumber(value: $0) }
+            animation.keyTimes = [0.0, 0.1, 0.2, 0.3]
+            animation.duration = 2.0
+            animation.timingFunctions = [
+                            CAMediaTimingFunction(name:CAMediaTimingFunctionName.easeOut),
+                            CAMediaTimingFunction(name:CAMediaTimingFunctionName.easeInEaseOut),
+                            CAMediaTimingFunction(name:CAMediaTimingFunctionName.easeInEaseOut)
+                        ]
             UIView.animate(withDuration: 2) {
                 self.bigHeart.layer.opacity = 0.0
             }
+            bigHeart.layer.add(animation, forKey: "what")
         }
     }
     

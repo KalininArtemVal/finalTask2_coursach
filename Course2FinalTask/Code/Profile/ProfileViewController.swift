@@ -75,7 +75,6 @@ class ProfileViewController: UIViewController {
         let followedBy = currentUser.followsCount
         countOfFollowers.text = String(followers)
         countOfFollowing.text = String(followedBy)
-//        title = currentUser.username
     }
 }
 
