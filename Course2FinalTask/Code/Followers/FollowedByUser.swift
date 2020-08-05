@@ -18,9 +18,11 @@ class FollowedByUser: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     
     var friends: [User]?
+    var mainTitle = "SomeTitle"
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        title = mainTitle
         tableView.delegate = self
         tableView.dataSource = self
     }

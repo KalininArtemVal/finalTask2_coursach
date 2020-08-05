@@ -15,14 +15,11 @@ var arrayOfPostsWithoutNil = [Post]()
 let post = DataProviders.shared.postsDataProvider
 
 
-
-
 class FeedViewController: UIViewController, UIGestureRecognizerDelegate {
     
     
     @IBOutlet weak var feedCollectionView: UICollectionView!
     
-//    var userOfCurrentPost = currentUser
     var userOfCurrentPost: User?
     
     override func viewDidLoad() {
@@ -49,7 +46,7 @@ class FeedViewController: UIViewController, UIGestureRecognizerDelegate {
 
 
 extension FeedViewController: UICollectionViewDataSource, UICollectionViewDelegate {
-
+    
     
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -80,14 +77,54 @@ extension FeedViewController: UICollectionViewDataSource, UICollectionViewDelega
         cell.delegate = self
         return cell
     }
-    
 }
+
 
 extension FeedViewController: UICollectionViewDelegateFlowLayout, CellDelegate {
     
+    
+    // MARK: - didTap on Likes
+    func didTapOnLikes(in cell: UICollectionViewCell, currentPost: Post) {
+        
+        guard let arrayOfLikesByUsers = post.usersLikedPost(with: currentPost.id) else {return}
+        
+        var unwrapdeArrayOfLikesByUsers = [User]()
+        
+        for usersID in arrayOfLikesByUsers {
+            if let array = followingUser {
+                for user in array {
+                    if user.id == usersID {
+                        unwrapdeArrayOfLikesByUsers.append(user)
+                    }
+                }
+            }
+        }
+        for usersID in arrayOfLikesByUsers {
+            if let array = followedByUser {
+                for user in array {
+                    if user.id == usersID {
+                        unwrapdeArrayOfLikesByUsers.append(user)
+                    }
+                }
+            }
+        }
+        
+        
+        if #available(iOS 13.0, *) {
+            guard let friendViewController = storyboard?.instantiateViewController(identifier: "FollowedByUser") as? FollowedByUser else { return }
+            
+            friendViewController.friends = unwrapdeArrayOfLikesByUsers
+            print(unwrapdeArrayOfLikesByUsers.count)
+            self.show(friendViewController, sender: self)
+        } else {
+            // Fallback on earlier versions
+        }
+        
+    }
+    
+    // MARK: - didTap on Avatar
     func didTap(OnAvatarIn cell: UICollectionViewCell, currentPost: Post) {
-        performSegue(withIdentifier: "showFriend", sender: self)
-        //Понимаю, что это не элегантное решение, и ресурсозатрантое, но оно единственное, которое сработало))
+        //Наверное, это не элегантное решение, и ресурсозатрантое, но оно единственное, которое сработало))
         if let follow = followingUser {
             for user in follow {
                 if user.id == currentPost.author {
@@ -104,20 +141,22 @@ extension FeedViewController: UICollectionViewDelegateFlowLayout, CellDelegate {
             }
         }
         
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard let detailVC = segue.destination as? FriendViewController else {return}
-        detailVC.currentFriend = userOfCurrentPost
+        if #available(iOS 13.0, *) {
+            guard let secondViewController = storyboard?.instantiateViewController(identifier: "FriendViewController") as? FriendViewController else { return }
+            secondViewController.currentFriend = userOfCurrentPost
+            self.show(secondViewController, sender: self)
+        } else {
+            // Fallback on earlier versions
+        }
         
     }
     
-
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let size = CGSize(width: UIScreen.main.bounds.size.width/1.0, height: 600)
         return size
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
     }

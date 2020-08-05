@@ -11,7 +11,7 @@ import DataProvider
 
 protocol CellDelegate: UIViewController {
     func didTap(OnAvatarIn cell: UICollectionViewCell, currentPost: Post)
-//    func didTap(OnAvatarIn cell: UICollectionViewCell)
+    func didTapOnLikes(in cell: UICollectionViewCell, currentPost: Post)
 }
 
 class FeedCollectionViewCell: UICollectionViewCell {
@@ -40,11 +40,25 @@ class FeedCollectionViewCell: UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        setTaps()
+    }
+    
+// MARK: - Set Tap Recognizer
+    func setTaps() {
+        //Тап на количество лайков
+        let touchOnCountOfLikes = UITapGestureRecognizer(target: self, action: #selector(tapLike(sender:)))
+        countOfLikes?.isUserInteractionEnabled = true
+        countOfLikes?.addGestureRecognizer(touchOnCountOfLikes)
         
         //Тап на аватар и имя
         let touchUserAvatar = UITapGestureRecognizer(target: self, action: #selector(tapAvatar(sender:)))
         userAvatar?.isUserInteractionEnabled = true
         userAvatar?.addGestureRecognizer(touchUserAvatar)
+        
+        //Тап на имя
+        let touchOnUserName = UITapGestureRecognizer(target: self, action: #selector(tapAvatar(sender:)))
+        userName?.isUserInteractionEnabled = true
+        userName?.addGestureRecognizer(touchOnUserName)
         
         //Ставим лайк от маленького сердца
         let touchLitleHeart = UITapGestureRecognizer(target: self, action: #selector(tapHeart(sender:)))
@@ -61,6 +75,15 @@ class FeedCollectionViewCell: UICollectionViewCell {
         postImage?.addGestureRecognizer(touchPost)
     }
     
+    //функция тап лайк
+    @objc func tapLike(sender: UITapGestureRecognizer) {
+        let vc = FeedCollectionViewCell()
+        guard let currentPost = currentPost else {return}
+        delegate?.didTapOnLikes(in: vc, currentPost: currentPost)
+        print("HI")
+    }
+    
+    //функция тап на сердечко
     @objc func tapHeart(sender: UITapGestureRecognizer) {
         let voice = 1
         guard var countLike = currentPost?.likedByCount else {return}
@@ -82,16 +105,14 @@ class FeedCollectionViewCell: UICollectionViewCell {
         }
     }
     
-        
-        @objc func tapAvatar(sender: UITapGestureRecognizer) {
-            let vc = FeedCollectionViewCell()
-            guard let currentPost = currentPost else {return}
-            delegate?.didTap(OnAvatarIn: vc, currentPost: currentPost)
-//            delegate?.didTap(OnAvatarIn: vc)
-            
-        }
+      //функция тап на Аватар
+    @objc func tapAvatar(sender: UITapGestureRecognizer) {
+        let vc = FeedCollectionViewCell()
+        guard let currentPost = currentPost else {return}
+        delegate?.didTap(OnAvatarIn: vc, currentPost: currentPost)
+    }
     
-    
+    //функция тап на сам пост
     @objc func tapPost(sender: UITapGestureRecognizer) {
         let voice = 1
         guard var countLike = currentPost?.likedByCount else {return}

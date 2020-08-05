@@ -25,6 +25,8 @@ class ProfileViewController: UIViewController {
     var animatoin: UIViewPropertyAnimator!
     var arrayOfCurrentPost = post.findPosts(by: currentUser.id)//[Post]()
     var arrayOfCurrentPostUnwrapped = [Post]()
+
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,15 +36,25 @@ class ProfileViewController: UIViewController {
         collectionView.dataSource = self
         collectionView.register(NewProfileCollectionViewCell.nib(), forCellWithReuseIdentifier: NewProfileCollectionViewCell.identifire)
         collectionView.reloadData()
+        self.collectionView.alwaysBounceVertical = true
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+
+        var rect = self.view.frame
+        rect.origin.y =  -scrollView.contentOffset.y
+        self.view.frame = rect
     }
 
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "followers" {
             let destination = segue.destination as? FollowedByUser
+            destination?.mainTitle = "Followers"
             destination?.friends = followingUser
         } else if segue.identifier == "following" {
             let destination = segue.destination as? FollowedByUser
+            destination?.mainTitle = "Following"
             destination?.friends = followedByUser
         }
     }

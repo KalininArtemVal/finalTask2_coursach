@@ -9,6 +9,8 @@
 import UIKit
 import DataProvider
 
+var allUsers = [User]()
+
 class FriendViewController: UIViewController {
     
     @IBOutlet weak var friendAvatar: UIImageView!
@@ -18,6 +20,7 @@ class FriendViewController: UIViewController {
     @IBOutlet weak var friendCollectionView: UICollectionView!
     
     var currentFriend: User?
+    
     var unwrappedArrayOfFriendPost = [Post]()
     
     static let identifire = "FriendViewController"
@@ -30,6 +33,27 @@ class FriendViewController: UIViewController {
         friendCollectionView.register(FriendCollectionViewCell.nib(), forCellWithReuseIdentifier: FriendCollectionViewCell.identifire)
         setLayout()
         friendCollectionView.reloadData()
+        createArrayOfAllUsers()
+    }
+    
+    func createArrayOfAllUsers() {
+        if let follow = followingUser {
+            for user in follow {
+                    allUsers.append(user)
+            }
+        }
+        if let follow = followedByUser {
+            for user in follow {
+                    allUsers.append(user)
+            }
+        }
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+
+        var rect = self.view.frame
+        rect.origin.y =  -scrollView.contentOffset.y
+        self.view.frame = rect
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -63,10 +87,12 @@ class FriendViewController: UIViewController {
         if segue.identifier == "friendFollowing" {
             let destination = segue.destination as? FollowedByUser
             let currentUserFollowers = user.usersFollowedByUser(with: currentFriend?.id ?? currentUser.id)
+            destination?.mainTitle = "Following"
             destination?.friends = currentUserFollowers
         } else if segue.identifier == "friendFollowers" {
             let destination = segue.destination as? FollowedByUser
             let currentUserFollowing = user.usersFollowingUser(with: currentFriend?.id ?? currentUser.id)
+            destination?.mainTitle = "Followers"
             destination?.friends = currentUserFollowing
         }
     }
@@ -86,12 +112,22 @@ extension FriendViewController: UICollectionViewDelegate, UICollectionViewDataSo
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "friendCell", for: indexPath) as? FriendCollectionViewCell else {return fatalError() as! UICollectionViewCell}
-        //----- ошибочка
-        if let currentFriend = currentFriend {
-            let arrayOfCurrentFriendPost = post.findPosts(by: currentFriend.id)
-            if let currentFriend = arrayOfCurrentFriendPost?[indexPath.row] {
-                cell.friendImageView.image = currentFriend.image
-                return cell
+        if unwrappedArrayOfFriendPost.isEmpty {
+            if let currentFriend = currentFriend {
+                let arrayOfCurrentFriendPost = post.findPosts(by: currentFriend.id)
+                if let currentFriend = arrayOfCurrentFriendPost?[indexPath.row] {
+                    cell.friendImageView.image = currentFriend.image
+                    return cell
+                }
+            }
+        } else {
+            unwrappedArrayOfFriendPost.removeAll()
+            if let currentFriend = currentFriend {
+                let arrayOfCurrentFriendPost = post.findPosts(by: currentFriend.id)
+                if let currentFriend = arrayOfCurrentFriendPost?[indexPath.row] {
+                    cell.friendImageView.image = currentFriend.image
+                    return cell
+                }
             }
         }
         return cell
