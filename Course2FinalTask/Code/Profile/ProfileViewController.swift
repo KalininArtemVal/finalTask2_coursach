@@ -11,10 +11,13 @@ import DataProvider
 
 //MARK: - вызываем user
 let user = DataProviders.shared.usersDataProvider
-let currentUser = user.currentUser()
+var asyncCurrentUser: User?
 
+var followedByUser = [User]()
+var followingUser = [User]()
 //MARK: - Profile of Сurrent User (Страница текущего пользователя)
 class ProfileViewController: UIViewController {
+    
     
     @IBOutlet weak var imageLable: UIImageView!
     @IBOutlet weak var nameLable: UILabel!
@@ -22,19 +25,94 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var countOfFollowing: UILabel!
     @IBOutlet weak var collectionView: UICollectionView!
     
+    let activityIndicatorCurrent = UIActivityIndicatorView()
+    let invisibleView = UIView()
     var animatoin: UIViewPropertyAnimator!
-    var arrayOfCurrentPost = post.findPosts(by: currentUser.id)//[Post]()
+    
+    var postsOfCurrentUser = [Post]()
+    var followingThisUser = [User]()
+    var followedByThisUser = [User]()
+    
+    func setArrayOfCurrentPost() {
+        if let asyncCurrentUser = asyncCurrentUser {
+            post.findPosts(by: asyncCurrentUser.id, queue: DispatchQueue.global()) { (postsOfCurrentUser) in
+                guard postsOfCurrentUser != nil else {return self.alertMessage()}
+                DispatchQueue.main.async {
+                    self.postsOfCurrentUser = postsOfCurrentUser ?? []
+                    self.collectionView.reloadData()
+                }
+            }
+        }
+    }
+    
     var arrayOfCurrentPostUnwrapped = [Post]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        indicator()
         setLayout()
-        newMan()
+        setCurrentUser()
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(NewProfileCollectionViewCell.nib(), forCellWithReuseIdentifier: NewProfileCollectionViewCell.identifire)
         collectionView.reloadData()
         self.collectionView.alwaysBounceVertical = true
+        self.view.addSubview(invisibleView)
+    }
+    
+    func indicator() {
+        invisibleView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
+        invisibleView.backgroundColor = .white
+        
+        activityIndicatorCurrent.frame = CGRect(x: 0, y: 0, width: 0, height: 0)
+        activityIndicatorCurrent.center = self.invisibleView.center
+        activityIndicatorCurrent.startAnimating()
+        invisibleView.addSubview(activityIndicatorCurrent)
+    }
+    
+    private func setCurrentUser() {
+        user.currentUser(queue: DispatchQueue.global()) { (user) in
+            guard user != nil else {return self.alertMessage()}
+            DispatchQueue.main.async {
+                
+                asyncCurrentUser = user
+                if let newMan = asyncCurrentUser {
+                    self.imageLable.image = newMan.avatar
+                    self.imageLable.layer.cornerRadius = self.imageLable.frame.size.width / 2
+                    self.nameLable.text = newMan.fullName
+                    let followers = newMan.followedByCount
+                    let followedBy = newMan.followsCount
+                    self.countOfFollowers.text = String(followers)
+                    self.countOfFollowing.text = String(followedBy)
+                    self.setArrayOfCurrentPost()
+                    self.getFollowers()
+                    
+                }
+            }
+        }
+    }
+    
+    func getFollowers() {
+        guard let currentUser = asyncCurrentUser else {return}
+        user.usersFollowedByUser(with: currentUser.id, queue: DispatchQueue.global()) { (users) in
+            guard users != nil else {return self.alertMessage()}
+            DispatchQueue.main.async {
+                self.followedByThisUser = users ?? []
+                followedByUser = users ?? []
+                self.invisibleView.isHidden = true
+                self.activityIndicatorCurrent.stopAnimating()
+                return
+            }
+        }
+        
+        user.usersFollowingUser(with: currentUser.id, queue: DispatchQueue.global()) { (users) in
+            guard users != nil else {return self.alertMessage()}
+            DispatchQueue.main.async {
+                self.followingThisUser = users ?? []
+                followingUser = users ?? []
+                return
+            }
+        }
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -47,16 +125,18 @@ class ProfileViewController: UIViewController {
         if segue.identifier == "followers" {
             let destination = segue.destination as? FollowedByUser
             destination?.mainTitle = "Followers"
-            destination?.friends = followingUser
+            destination?.friends = followingThisUser
         } else if segue.identifier == "following" {
             let destination = segue.destination as? FollowedByUser
             destination?.mainTitle = "Following"
-            destination?.friends = followedByUser
+            destination?.friends = followedByThisUser
+            
         }
     }
     
     override func viewWillAppear(_ animated: Bool) {
         collectionView.reloadData()
+        setCurrentUser()
     }
     
     func setLayout() {
@@ -67,41 +147,25 @@ class ProfileViewController: UIViewController {
         collectionView.setCollectionViewLayout(layout, animated: true)
     }
     
-    private func newMan() {
-        imageLable.image = currentUser.avatar
-        imageLable.layer.cornerRadius = imageLable.frame.size.width / 2
-        nameLable.text = currentUser.fullName
-        let followers = currentUser.followedByCount
-        let followedBy = currentUser.followsCount
-        countOfFollowers.text = String(followers)
-        countOfFollowing.text = String(followedBy)
+    //Функция сообщающая об ошибке
+    func alertMessage() {
+        let alertController = UIAlertController(title: "Unknown error!", message: "Please, try again later.", preferredStyle: .alert)
+        let action = UIAlertAction(title: "OK", style: .default)
+        alertController.addAction(action)
+        self.present(alertController, animated: true, completion: nil)
     }
 }
 
 extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if let arrayOfCurrentPost = arrayOfCurrentPost {
-            for post in arrayOfCurrentPost {
-                arrayOfCurrentPostUnwrapped.append(post)
-            }
-        }
-        return arrayOfCurrentPostUnwrapped.count
-    }
     
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return postsOfCurrentUser.count
+    }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "profileCell", for: indexPath) as? NewProfileCollectionViewCell else {fatalError("hogeCell not registered.")}
-        if let arrayOfCurrentPost = arrayOfCurrentPost {
-            for post in arrayOfCurrentPost {
-                arrayOfCurrentPostUnwrapped.append(post)
-                let post = arrayOfCurrentPostUnwrapped[indexPath.row]
-                cell.configue(with: post.image)
-                return cell
-            }
-            let post = arrayOfCurrentPostUnwrapped[indexPath.row]
-            cell.configue(with: post.image)
-            return cell
-        }
+        let post = postsOfCurrentUser[indexPath.row]
+        cell.configue(with: post.image)
         return cell
     }
 }
