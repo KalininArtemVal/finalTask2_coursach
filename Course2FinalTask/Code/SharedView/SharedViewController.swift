@@ -30,10 +30,6 @@ class SharedViewController: UIViewController {
         sharedImageView.image = sharedImage
     }
     
-    @IBAction func unwindToFeed( _ sender: UIStoryboardSegue) {
-        print("Goo")
-        
-    }
     
     @IBAction func shredButton(_ sender: Any) {
         descriptionText = sharedTextField.text ?? ""

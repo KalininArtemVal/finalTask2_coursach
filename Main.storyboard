@@ -582,7 +582,6 @@
                                 <state key="normal" title="Share"/>
                                 <connections>
                                     <action selector="shredButton:" destination="xIq-Pl-so9" eventType="touchUpInside" id="CrL-DS-JUp"/>
-                                    <action selector="unwindToFeed:" destination="xIq-Pl-so9" eventType="touchUpInside" id="B5I-7z-tWR"/>
                                 </connections>
                             </button>
                         </barButtonItem>
