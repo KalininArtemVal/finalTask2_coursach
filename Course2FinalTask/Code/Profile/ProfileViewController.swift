@@ -15,9 +15,9 @@ var asyncCurrentUser: User?
 
 var followedByUser = [User]()
 var followingUser = [User]()
+
 //MARK: - Profile of Сurrent User (Страница текущего пользователя)
 class ProfileViewController: UIViewController {
-    
     
     @IBOutlet weak var imageLable: UIImageView!
     @IBOutlet weak var nameLable: UILabel!
@@ -25,6 +25,7 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var countOfFollowing: UILabel!
     @IBOutlet weak var collectionView: UICollectionView!
     
+    let post = DataProviders.shared.postsDataProvider
     let activityIndicatorCurrent = UIActivityIndicatorView()
     let invisibleView = UIView()
     var animatoin: UIViewPropertyAnimator!
@@ -60,6 +61,9 @@ class ProfileViewController: UIViewController {
         self.view.addSubview(invisibleView)
     }
     
+    //MARK: - функции viewDidLoad
+    
+    //Индикатор активности во время подгрузки данных
     func indicator() {
         invisibleView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
         invisibleView.backgroundColor = .white
@@ -70,11 +74,11 @@ class ProfileViewController: UIViewController {
         invisibleView.addSubview(activityIndicatorCurrent)
     }
     
+    //Получаем текущего пользователя
     private func setCurrentUser() {
         user.currentUser(queue: DispatchQueue.global()) { (user) in
             guard user != nil else {return self.alertMessage()}
             DispatchQueue.main.async {
-                
                 asyncCurrentUser = user
                 if let newMan = asyncCurrentUser {
                     self.imageLable.image = newMan.avatar
@@ -86,12 +90,12 @@ class ProfileViewController: UIViewController {
                     self.countOfFollowing.text = String(followedBy)
                     self.setArrayOfCurrentPost()
                     self.getFollowers()
-                    
                 }
             }
         }
     }
     
+    //Получаем подписчиков пользователя
     func getFollowers() {
         guard let currentUser = asyncCurrentUser else {return}
         user.usersFollowedByUser(with: currentUser.id, queue: DispatchQueue.global()) { (users) in
@@ -104,7 +108,6 @@ class ProfileViewController: UIViewController {
                 return
             }
         }
-        
         user.usersFollowingUser(with: currentUser.id, queue: DispatchQueue.global()) { (users) in
             guard users != nil else {return self.alertMessage()}
             DispatchQueue.main.async {
@@ -115,30 +118,7 @@ class ProfileViewController: UIViewController {
         }
     }
     
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        var rect = self.view.frame
-        rect.origin.y =  -scrollView.contentOffset.y
-        self.view.frame = rect
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "followers" {
-            let destination = segue.destination as? FollowedByUser
-            destination?.mainTitle = "Followers"
-            destination?.friends = followingThisUser
-        } else if segue.identifier == "following" {
-            let destination = segue.destination as? FollowedByUser
-            destination?.mainTitle = "Following"
-            destination?.friends = followedByThisUser
-            
-        }
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        collectionView.reloadData()
-        setCurrentUser()
-    }
-    
+    //Констрейнты 
     func setLayout() {
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
@@ -154,8 +134,35 @@ class ProfileViewController: UIViewController {
         alertController.addAction(action)
         self.present(alertController, animated: true, completion: nil)
     }
+    
+    //MARK: - ScrollView
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        var rect = self.view.frame
+        rect.origin.y =  -scrollView.contentOffset.y
+        self.view.frame = rect
+    }
+    
+    //MARK: - Переносим данные на экран Followers
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "followers" {
+            let destination = segue.destination as? FollowedByUser
+            destination?.mainTitle = "Followers"
+            destination?.friends = followingThisUser
+        } else if segue.identifier == "following" {
+            let destination = segue.destination as? FollowedByUser
+            destination?.mainTitle = "Following"
+            destination?.friends = followedByThisUser
+        }
+    }
+    
+    //MARK: - ViewWillAppear
+    override func viewWillAppear(_ animated: Bool) {
+        collectionView.reloadData()
+        setCurrentUser()
+    }
 }
 
+//MARK: - Расширение Delegate, DataSource
 extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -170,6 +177,7 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
     }
 }
 
+//MARK: - Расширение FlowLayout
 extension ProfileViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {

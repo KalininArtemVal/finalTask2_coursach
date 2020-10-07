@@ -11,7 +11,7 @@ import UIKit
 import DataProvider
 
 
-//MARK: - Table View (Таблица)
+//MARK: - Follow Screen (Список друзей)
 class FollowedByUser: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
@@ -32,12 +32,7 @@ class FollowedByUser: UIViewController {
         tableView.dataSource = self
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        invisibleView.isHidden = true
-        getFriends()
-        tableView.reloadData()
-    }
-    
+    //MARK: - Функции viewDidLoad
     func getFriends() {
         guard self.friends != nil else {return}
         self.friendsWithOutNill = self.friends ?? []
@@ -53,8 +48,16 @@ class FollowedByUser: UIViewController {
         friendIndicator.startAnimating()
         invisibleView.addSubview(friendIndicator)
     }
+    
+    //MARK: - viewWillAppear
+    override func viewWillAppear(_ animated: Bool) {
+        invisibleView.isHidden = true
+        getFriends()
+        tableView.reloadData()
+    }
 }
 
+//MARK: - расширения Delegate, DataSource
 extension FollowedByUser: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

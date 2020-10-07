@@ -16,10 +16,8 @@ protocol CellDelegate: UIViewController {
     func updateFeed()
 }
 
-
 //MARK: - Cell Feed (Ячейка коллекции)
 class FeedCollectionViewCell: UICollectionViewCell {
-    
     
     weak var delegate: CellDelegate?
     
@@ -35,6 +33,7 @@ class FeedCollectionViewCell: UICollectionViewCell {
     
     static let identifire = "feedCell"
     
+    let post = DataProviders.shared.postsDataProvider
     var currentFriend: User?
     var currentPost: Post?
     
@@ -42,8 +41,6 @@ class FeedCollectionViewCell: UICollectionViewCell {
         super.awakeFromNib()
         setTaps()
     }
-    
-    
     
     // MARK: - Set Tap Recognizer
     func setTaps() {
@@ -92,24 +89,34 @@ class FeedCollectionViewCell: UICollectionViewCell {
             post.likePost(with: currentPost.id, queue: DispatchQueue.global()) { (_) in }
             DispatchQueue.main.async {
                 self.countOfLikes?.text = String(countLike)
-                self.imageHeartOfLike.image = #imageLiteral(resourceName: "like")
-                self.imageHeartOfLike.tintColor = .systemBlue
                 self.currentPost?.likedByCount = countLike
-                self.currentPost?.currentUserLikesThisPost = true
-                self.delegate?.updateFeed()
+                self.didLikePost()
             }
         } else {
             guard let currentPost = self.currentPost else {return}
             post.unlikePost(with: currentPost.id, queue: DispatchQueue.global()) { (_) in }
             DispatchQueue.main.async {
-                self.imageHeartOfLike.image = #imageLiteral(resourceName: "like")
-                self.imageHeartOfLike.tintColor = .lightGray
                 self.countOfLikes?.text = String(countLike)
-                self.currentPost?.currentUserLikesThisPost = false
                 self.currentPost?.likedByCount = countLike
-                self.delegate?.updateFeed()
+                self.didUnlikePost()
             }
         }
+    }
+    
+    //Если like пост
+    func didLikePost() {
+        self.imageHeartOfLike.image = #imageLiteral(resourceName: "like")
+        self.imageHeartOfLike.tintColor = .systemBlue
+        self.currentPost?.currentUserLikesThisPost = true
+        self.delegate?.updateFeed()
+    }
+    
+    //Если unlike пост
+    func didUnlikePost() {
+        self.imageHeartOfLike.image = #imageLiteral(resourceName: "like")
+        self.imageHeartOfLike.tintColor = .lightGray
+        self.currentPost?.currentUserLikesThisPost = false
+        self.delegate?.updateFeed()
     }
     
     //Тап на Аватар

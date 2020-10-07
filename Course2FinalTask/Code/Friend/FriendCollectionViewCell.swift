@@ -16,10 +16,6 @@ class FriendCollectionViewCell: UICollectionViewCell {
     
     static let identifire = "friendCell"
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
-    }
-    
     public func configue(with image: UIImage) {
         friendImageView.image = image
     }

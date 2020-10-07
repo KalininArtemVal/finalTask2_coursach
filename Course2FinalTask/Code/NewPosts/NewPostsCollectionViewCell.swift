@@ -13,11 +13,6 @@ class NewPostsCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var newPhotoImage: UIImageView!
     
     static let identifire = "NewPostsCollectionViewCell"
-
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
     
     public func configue(with image: UIImage) {
         newPhotoImage.image = image
@@ -26,5 +21,5 @@ class NewPostsCollectionViewCell: UICollectionViewCell {
     static func nib() -> UINib {
         return UINib(nibName: "NewPostsCollectionViewCell", bundle: nil)
     }
-
+    
 }

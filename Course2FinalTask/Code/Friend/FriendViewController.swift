@@ -14,7 +14,7 @@ var currentUserFollowers = [User]()
 //Подписчики following
 var currentUserFollowing = [User]()
 
-//MARK: - View Controller of Friend (экран ДРУГА)
+//MARK: - Friend View (экран ДРУГА)
 
 class FriendViewController: UIViewController {
     
@@ -26,7 +26,7 @@ class FriendViewController: UIViewController {
     @IBOutlet weak var followButtonLable: UIButton!
     @IBOutlet weak var buttonActiveIndicator: UIActivityIndicatorView!
     
-    
+    let post = DataProviders.shared.postsDataProvider
     var friendIndicator = UIActivityIndicatorView()
     var invisibleView = UIView()
     var lebleOfFollowButton = ""
@@ -49,18 +49,8 @@ class FriendViewController: UIViewController {
         friendCollectionView.register(FriendCollectionViewCell.nib(), forCellWithReuseIdentifier: FriendCollectionViewCell.identifire)
     }
     
-    //MARK: - Make Scroll (Делаем скрол)
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        var rect = self.view.frame
-        rect.origin.y =  -scrollView.contentOffset.y
-        self.view.frame = rect
-    }
-    
-    //Обновляем UI
-    override func viewWillAppear(_ animated: Bool) {
-        friendCollectionView.reloadData()
-    }
-    
+    //MARK: - функции viewDidLoad
+    // Тап на подписчиков
     @objc func tapFollowers(sender: UITapGestureRecognizer) {
         let vc = FollowedByUser()
         show(vc, sender: self)
@@ -89,14 +79,7 @@ class FriendViewController: UIViewController {
         }
     }
     
-    func setLayout() {
-        let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-        layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        layout.minimumInteritemSpacing = 0
-        layout.minimumLineSpacing = 0
-        friendCollectionView.setCollectionViewLayout(layout, animated: true)
-    }
-    
+    // Индикатор
     func indicator() {
         invisibleView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
         invisibleView.backgroundColor = .white
@@ -154,22 +137,6 @@ class FriendViewController: UIViewController {
         }
     }
     
-    
-    //MARK: - FOLLOWERS
-    // Передаем на экран подписчики друга массив с Followers или Following
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "friendFollowing" {
-            let destination = segue.destination as? FollowedByUser
-            destination?.mainTitle = "Following"
-            destination?.friends = currentUserFollowers
-        } else if segue.identifier == "friendFollowers" {
-            let destination = segue.destination as? FollowedByUser
-            destination?.mainTitle = "Followers"
-            destination?.friends = currentUserFollowing
-        }
-    }
-    
-    //MARK: - FINDPOST
     //функция где мы достаем из DataProvider посты для ДРУГА. HIdden
     func getFriend() {
         if let currentFriend = currentFriend {
@@ -193,6 +160,42 @@ class FriendViewController: UIViewController {
                     }
                 }
             }
+        }
+    }
+    
+    //MARK: - Констрейнты
+    func setLayout() {
+        let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        layout.minimumInteritemSpacing = 0
+        layout.minimumLineSpacing = 0
+        friendCollectionView.setCollectionViewLayout(layout, animated: true)
+    }
+    
+    //MARK: - Make Scroll (Делаем скрол)
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        var rect = self.view.frame
+        rect.origin.y =  -scrollView.contentOffset.y
+        self.view.frame = rect
+    }
+    
+    //MARK: - viewWillAppear
+    override func viewWillAppear(_ animated: Bool) {
+        friendCollectionView.reloadData()
+    }
+    
+    
+    //MARK: - FOLLOWERS
+    // Передаем на экран подписчики друга массив с Followers или Following
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "friendFollowing" {
+            let destination = segue.destination as? FollowedByUser
+            destination?.mainTitle = "Following"
+            destination?.friends = currentUserFollowers
+        } else if segue.identifier == "friendFollowers" {
+            let destination = segue.destination as? FollowedByUser
+            destination?.mainTitle = "Followers"
+            destination?.friends = currentUserFollowing
         }
     }
     
@@ -225,6 +228,7 @@ class FriendViewController: UIViewController {
             }
         }
     }
+    
     //обновляем UI интерфйес после того как текущий пользователь подписался/отписался
     func updateUI() {
         guard let friend = currentFriend else {return self.alertMessage()}
@@ -257,6 +261,8 @@ class FriendViewController: UIViewController {
         self.present(alertController, animated: true, completion: nil)
     }
 }
+
+//MARK: - Расширения
 
 extension FriendViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

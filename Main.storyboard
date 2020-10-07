@@ -581,14 +581,13 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Share"/>
                                 <connections>
-                                    <action selector="shredButton:" destination="xIq-Pl-so9" eventType="touchUpInside" id="CrL-DS-JUp"/>
+                                    <action selector="shredButton:" destination="xIq-Pl-so9" eventType="touchUpInside" id="pEQ-5N-wPT"/>
                                 </connections>
                             </button>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="sharedImageView" destination="2PL-Hz-Ag5" id="yEU-sB-fMP"/>
-                        <outlet property="sharedLable" destination="MgK-F4-JCB" id="oba-cu-1by"/>
                         <outlet property="sharedTextField" destination="Drn-5E-jWf" id="HA5-Eb-Z9O"/>
                     </connections>
                 </viewController>
@@ -637,7 +636,7 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="coc-l4-3Ol"/>
-        <segue reference="Wk0-ct-mti"/>
+        <segue reference="NfC-oB-lsA"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="feed" width="25" height="25"/>

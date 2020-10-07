@@ -18,7 +18,7 @@ class SelectFiltersViewController: UIViewController {
     
     static let identifire = "SelectFiltersViewController"
     
-    
+    let appendFilter = AppendFilter()
     let invisibleView = UIView()
     let activityIndicatorCurrent = UIActivityIndicatorView()
     
@@ -35,7 +35,7 @@ class SelectFiltersViewController: UIViewController {
         collectionView.dataSource = self
         collectionView.reloadData()
     }
-    
+    //Индикатор загрузки
     func indicator() {
         invisibleView.contentMode = .scaleAspectFit
         invisibleView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
@@ -49,6 +49,13 @@ class SelectFiltersViewController: UIViewController {
         invisibleView.addSubview(activityIndicatorCurrent)
     }
     
+    //Устанавливаем изображения
+    func setImage() {
+        userImage.image = selectedImage
+        userImage.contentMode = .scaleAspectFill
+    }
+    
+    //Констрейнты коллекции
     func setLayout() {
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.itemSize = CGSize(width: 120, height: 100)
@@ -57,18 +64,14 @@ class SelectFiltersViewController: UIViewController {
         flowLayout.scrollDirection = .horizontal
         collectionView.setCollectionViewLayout(flowLayout, animated: true)
     }
-    
-    func setImage() {
-        userImage.image = selectedImage
-        userImage.contentMode = .scaleAspectFill
-    }
 }
 
+//MARK: - Расширения
 extension SelectFiltersViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if let selectedImage = selectedImage {
-            filters = appendImage(with: selectedImage, collection: collectionView, view: invisibleView)
+            filters = appendFilter.appendImage(with: selectedImage, collection: collectionView, view: invisibleView)
         }
         
         return filters.count
@@ -77,7 +80,7 @@ extension SelectFiltersViewController: UICollectionViewDelegate, UICollectionVie
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilterCollectionViewCell.identifire, for: indexPath) as? FilterCollectionViewCell else {fatalError("ERRoR!")}
         if let selectedImage = selectedImage {
-            filters = appendImage(with: selectedImage, collection: collectionView, view: invisibleView)
+            filters = appendFilter.appendImage(with: selectedImage, collection: collectionView, view: invisibleView)
             
             let filter = filters[indexPath.row].nameOfFilter ?? "000"
             guard let image = filters[indexPath.row].image else {return cell}
@@ -99,8 +102,6 @@ extension SelectFiltersViewController: UICollectionViewDelegate, UICollectionVie
         }
     }
 }
-
-
 
 extension SelectFiltersViewController: UICollectionViewDelegateFlowLayout {
     

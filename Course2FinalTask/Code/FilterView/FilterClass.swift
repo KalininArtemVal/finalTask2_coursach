@@ -9,7 +9,7 @@
 import UIKit
 import DataProvider
 
-//MARK: - Класс обработки фильтров
+//MARK: - Operation для обработки фильтров
 class UseFilter: Operation {
     
     override var isAsynchronous: Bool {
@@ -34,86 +34,89 @@ class UseFilter: Operation {
     }
 }
 
-
-let queue = OperationQueue()
-
-var newImage1 = UIImage()
-var newImage2 = UIImage()
-var newImage3 = UIImage()
-var newImage4 = UIImage()
-var newImage5 = UIImage()
-
-//функции по выбору фильтров
-//1 Noir
-public func doNoirFilter(originalImage: UIImage, collection: UICollectionView, view: UIView) -> UIImage? {
+//MARK: - Класс Filters
+class Filters {
     
-    guard let ciimage = CIImage(image: originalImage) else {return nil}
-    let useeFilter = UseFilter(nameFilter: "CIPhotoEffectNoir", parametr: [kCIInputImageKey: ciimage])
-    queue.addOperations([useeFilter], waitUntilFinished: false)
-    useeFilter.completionBlock = {
-        DispatchQueue.main.async {
-            newImage1 = useeFilter.outPutImage
-            collection.reloadData()
-            view.isHidden = true
-        }
-    }
-    return newImage1
-}
-//2 Fade
-public func doFadeFilter(originalImage: UIImage, collection: UICollectionView) -> UIImage? {
+    let queue = OperationQueue()
     
-    guard let ciimage = CIImage(image: originalImage) else {return nil}
-    let useeFilter = UseFilter(nameFilter: "CIPhotoEffectFade", parametr: [kCIInputImageKey: ciimage])
-    queue.addOperations([useeFilter], waitUntilFinished: false)
-    useeFilter.completionBlock = {
-        DispatchQueue.main.async {
-            newImage2 = useeFilter.outPutImage
-            collection.reloadData()
-        }
-    }
-    return newImage2
-}
-//3 Sepia
-public func doSepiaFilter(originalImage: UIImage, collection: UICollectionView) -> UIImage? {
+    var newImage1 = UIImage()
+    var newImage2 = UIImage()
+    var newImage3 = UIImage()
+    var newImage4 = UIImage()
+    var newImage5 = UIImage()
     
-    guard let ciimage = CIImage(image: originalImage) else {return nil}
-    let useeFilter = UseFilter(nameFilter: "CISepiaTone", parametr: [kCIInputImageKey: ciimage])
-    queue.addOperations([useeFilter], waitUntilFinished: false)
-    useeFilter.completionBlock = {
-        DispatchQueue.main.async {
-            newImage3 = useeFilter.outPutImage
-            collection.reloadData()
+    //MARK: - Функции вызывающие фильтры
+    //1 Noir filter
+    public func doNoirFilter(originalImage: UIImage, collection: UICollectionView, view: UIView) -> UIImage? {
+        
+        guard let ciimage = CIImage(image: originalImage) else {return nil}
+        let useeFilter = UseFilter(nameFilter: "CIPhotoEffectNoir", parametr: [kCIInputImageKey: ciimage])
+        queue.addOperations([useeFilter], waitUntilFinished: false)
+        useeFilter.completionBlock = {
+            DispatchQueue.main.async {
+                self.newImage1 = useeFilter.outPutImage
+                collection.reloadData()
+                view.isHidden = true
+            }
         }
+        return newImage1
     }
-    return newImage3
-}
-//4 Blur
-public func doTonalFilter(originalImage: UIImage, collection: UICollectionView) -> UIImage? {
+    //2 Fade filter
+    public func doFadeFilter(originalImage: UIImage, collection: UICollectionView) -> UIImage? {
+        
+        guard let ciimage = CIImage(image: originalImage) else {return nil}
+        let useeFilter = UseFilter(nameFilter: "CIPhotoEffectFade", parametr: [kCIInputImageKey: ciimage])
+        queue.addOperations([useeFilter], waitUntilFinished: false)
+        useeFilter.completionBlock = {
+            DispatchQueue.main.async {
+                self.newImage2 = useeFilter.outPutImage
+                collection.reloadData()
+            }
+        }
+        return newImage2
+    }
+    //3 Sepia filter
+    public func doSepiaFilter(originalImage: UIImage, collection: UICollectionView) -> UIImage? {
+        
+        guard let ciimage = CIImage(image: originalImage) else {return nil}
+        let useeFilter = UseFilter(nameFilter: "CISepiaTone", parametr: [kCIInputImageKey: ciimage])
+        queue.addOperations([useeFilter], waitUntilFinished: false)
+        useeFilter.completionBlock = {
+            DispatchQueue.main.async {
+                self.newImage3 = useeFilter.outPutImage
+                collection.reloadData()
+            }
+        }
+        return newImage3
+    }
+    //4 Blur filter
+    public func doTonalFilter(originalImage: UIImage, collection: UICollectionView) -> UIImage? {
+        
+        guard let ciimage = CIImage(image: originalImage) else {return nil}
+        let useeFilter = UseFilter(nameFilter: "CIPhotoEffectTonal", parametr: [kCIInputImageKey: ciimage])
+        queue.addOperations([useeFilter], waitUntilFinished: false)
+        useeFilter.completionBlock = {
+            DispatchQueue.main.async {
+                self.newImage4 = useeFilter.outPutImage
+                collection.reloadData()
+            }
+        }
+        return newImage4
+    }
     
-    guard let ciimage = CIImage(image: originalImage) else {return nil}
-    let useeFilter = UseFilter(nameFilter: "CIPhotoEffectTonal", parametr: [kCIInputImageKey: ciimage])
-    queue.addOperations([useeFilter], waitUntilFinished: false)
-    useeFilter.completionBlock = {
-        DispatchQueue.main.async {
-            newImage4 = useeFilter.outPutImage
-            collection.reloadData()
+    //5 Transfer filter
+    public func doTransferFilter(originalImage: UIImage, collection: UICollectionView) -> UIImage? {
+        guard let ciimage = CIImage(image: originalImage) else {return nil}
+        let useeFilter = UseFilter(nameFilter: "CIPhotoEffectTransfer", parametr: [kCIInputImageKey: ciimage])
+        queue.addOperations([useeFilter], waitUntilFinished: false)
+        useeFilter.completionBlock = {
+            DispatchQueue.main.async {
+                self.newImage5 = useeFilter.outPutImage
+                collection.reloadData()
+            }
         }
+        return newImage5
     }
-    return newImage4
-}
-
-//5 Transfer
-public func doTransferFilter(originalImage: UIImage, collection: UICollectionView) -> UIImage? {
-    guard let ciimage = CIImage(image: originalImage) else {return nil}
-    let useeFilter = UseFilter(nameFilter: "CIPhotoEffectTransfer", parametr: [kCIInputImageKey: ciimage])
-    queue.addOperations([useeFilter], waitUntilFinished: false)
-    useeFilter.completionBlock = {
-        DispatchQueue.main.async {
-            newImage5 = useeFilter.outPutImage
-            collection.reloadData()
-        }
-    }
-    return newImage5
 }
 
 

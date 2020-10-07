@@ -9,32 +9,31 @@
 import UIKit
 import DataProvider
 
-//MARK: - Followers
-var youAreFollowed = [User]()
-
-
-//MARK: - вызываем post
-
-var feedReturn = [Post]()
-var usersLikesPostArray = [User]()
-let post = DataProviders.shared.postsDataProvider
-var lookingUser: User?
-
-var feedReturnWithOutNill = [Post]()
-let queueUtility = DispatchQueue.global(qos: .utility)
-
 //MARK: - Feed (Лента)
 class FeedViewController: UIViewController, UIGestureRecognizerDelegate {
     
-    
     @IBOutlet weak var activeIndicator: UIActivityIndicatorView!
     @IBOutlet weak var feedCollectionView: UICollectionView!
+    
+    //MARK: - Followers
+    var youAreFollowed = [User]()
+
+    //MARK: - вызываем post
+    var feedReturn = [Post]()
+    var usersLikesPostArray = [User]()
+    let post = DataProviders.shared.postsDataProvider
+    var lookingUser: User?
+
+    var feedReturnWithOutNill = [Post]()
+    let queueUtility = DispatchQueue.global(qos: .utility)
+    static let identyfire = "FeedViewController"
     
     var unwrapdeArrayOfLikesByUsers = [User]()
     var userOfCurrentPost: User?
     var following = [User]()
     var follwed = [User]()
     var curUser: User?
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,30 +47,27 @@ class FeedViewController: UIViewController, UIGestureRecognizerDelegate {
         feedCollectionView.reloadData()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        getFeed()
-        feedCollectionView.reloadData()
-    }
+    //MARK: - Функции viewDidLoad
     
-    
-    //вытаскиваем данные
+    //Получаем посты пользователей (формируем ленту)
     func getFeed() {
         post.feed(queue: queueUtility) { (feedReturn) in
             guard feedReturn != nil else {return self.alertMessage()}
             DispatchQueue.main.async {
                 self.activeIndicator.isHidden = true
-                feedReturnWithOutNill = feedReturn ?? []
+                self.feedReturnWithOutNill = feedReturn ?? []
                 self.feedCollectionView.reloadData()
             }
         }
     }
-    //Индикатор активности
+    
+    //Индикатор активности. Работает при подгрузке данных
     func activIndicator() {
         self.activeIndicator.isHidden = false
         activeIndicator.startAnimating()
-        
     }
     
+    //Констрейнты ячейки
     func setLayout() {
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
@@ -80,7 +76,7 @@ class FeedViewController: UIViewController, UIGestureRecognizerDelegate {
         feedCollectionView.collectionViewLayout = layout
     }
     
-    //вытаскиваем текущего пользователя
+    //Получаем текущего пользователя
     func getUser() {
         user.currentUser(queue: DispatchQueue.global()) { (getuser) in
             guard getuser != nil else {return self.alertMessage()}
@@ -90,7 +86,7 @@ class FeedViewController: UIViewController, UIGestureRecognizerDelegate {
             user.usersFollowedByUser(with: currentUser.id, queue: DispatchQueue.global()) { (users) in
                 guard users != nil else {return}
                 DispatchQueue.main.async {
-                    youAreFollowed = users ?? []
+                    self.youAreFollowed = users ?? []
                 }
             }
         }
@@ -103,9 +99,16 @@ class FeedViewController: UIViewController, UIGestureRecognizerDelegate {
         alertController.addAction(action)
         self.present(alertController, animated: true, completion: nil)
     }
+    
+    //MARK: - Обновляем ленту после публикации
+    override func viewWillAppear(_ animated: Bool) {
+        getFeed()
+        feedCollectionView.reloadData()
+    }
 }
 
 
+//MARK: - Расширения Delegate, DataSorce
 
 extension FeedViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     
@@ -145,7 +148,7 @@ extension FeedViewController: UICollectionViewDataSource, UICollectionViewDelega
     }
 }
 
-
+//MARK: - Расширения FlowLayout, CellDelegate
 extension FeedViewController: UICollectionViewDelegateFlowLayout, CellDelegate {
     
     // MARK: - Обновляем ленту
@@ -158,7 +161,6 @@ extension FeedViewController: UICollectionViewDelegateFlowLayout, CellDelegate {
             }
         }
     }
-    
     
     // MARK: - didTap on Likes (Переход по тапу на кол-во Лайков)
     func didTapOnLikes(in cell: UICollectionViewCell, currentPost: Post) {
