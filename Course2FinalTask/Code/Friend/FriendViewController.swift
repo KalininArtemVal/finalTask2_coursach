@@ -185,7 +185,7 @@ class FriendViewController: UIViewController {
     }
     
     
-    //MARK: - FOLLOWERS
+    //MARK: - FOLLOWERS (передаём фоловеров)
     // Передаем на экран подписчики друга массив с Followers или Following
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "friendFollowing" {
