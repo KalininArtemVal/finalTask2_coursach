@@ -18,7 +18,9 @@ class SelectFiltersViewController: UIViewController {
     
     static let identifire = "SelectFiltersViewController"
     
-    let appendFilter = AppendFilter()
+    
+    
+//    let appendFilter = AppendFilter()
     let invisibleView = UIView()
     let activityIndicatorCurrent = UIActivityIndicatorView()
     
@@ -27,6 +29,7 @@ class SelectFiltersViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setSelectedImage()
         indicator()
         setImage()
         setLayout()
@@ -64,29 +67,41 @@ class SelectFiltersViewController: UIViewController {
         flowLayout.scrollDirection = .horizontal
         collectionView.setCollectionViewLayout(flowLayout, animated: true)
     }
+    
+    func setSelectedImage() {
+        
+        if let selectedImage = selectedImage {
+            let queue = OperationQueue()
+            let operationFilter = UseFilter(image: selectedImage)
+            
+            queue.addOperation(operationFilter)
+            operationFilter.completionBlock = { [weak self] in
+                guard let self = self else {return}
+                DispatchQueue.main.async {
+                    self.filters = operationFilter.arrayOfFilters
+                    self.collectionView.reloadData()
+                    self.invisibleView.isHidden = true
+                }
+            }
+        }
+    }
 }
+
 
 //MARK: - Расширения
 extension SelectFiltersViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if let selectedImage = selectedImage {
-            filters = appendFilter.appendImage(with: selectedImage, collection: collectionView, view: invisibleView)
-        }
-        
         return filters.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilterCollectionViewCell.identifire, for: indexPath) as? FilterCollectionViewCell else {fatalError("ERRoR!")}
-        if let selectedImage = selectedImage {
-            filters = appendFilter.appendImage(with: selectedImage, collection: collectionView, view: invisibleView)
-            
-            let filter = filters[indexPath.row].nameOfFilter ?? "000"
-            guard let image = filters[indexPath.row].image else {return cell}
-            cell.configue(image: image, filter: filter)
-            return cell
-        }
+        
+        let filter = self.filters[indexPath.row].image
+        guard let selectedImage = filter else {return cell}
+        cell.configue(image: selectedImage)
+        
         return cell
     }
     

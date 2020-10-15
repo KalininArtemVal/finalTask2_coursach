@@ -29,6 +29,7 @@ class FeedViewController: UIViewController, UIGestureRecognizerDelegate {
     static let identyfire = "FeedViewController"
     
     var unwrapdeArrayOfLikesByUsers = [User]()
+    let dateFormatter = DateFormatter()
     var userOfCurrentPost: User?
     var following = [User]()
     var follwed = [User]()
@@ -37,7 +38,6 @@ class FeedViewController: UIViewController, UIGestureRecognizerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        getFeed()
         getUser()
         setLayout()
         activIndicator()
@@ -51,12 +51,12 @@ class FeedViewController: UIViewController, UIGestureRecognizerDelegate {
     
     //Получаем посты пользователей (формируем ленту)
     func getFeed() {
-        post.feed(queue: queueUtility) { (feedReturn) in
-            guard feedReturn != nil else {return self.alertMessage()}
+        post.feed(queue: queueUtility) { [weak self] feedReturn in
+            guard feedReturn != nil else {return} //self?.alertMessage()
             DispatchQueue.main.async {
-                self.activeIndicator.isHidden = true
-                self.feedReturnWithOutNill = feedReturn ?? []
-                self.feedCollectionView.reloadData()
+                self?.activeIndicator.isHidden = true
+                self?.feedReturnWithOutNill = feedReturn ?? []
+                self?.feedCollectionView.reloadData()
             }
         }
     }
@@ -120,29 +120,13 @@ extension FeedViewController: UICollectionViewDataSource, UICollectionViewDelega
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "feedCell", for: indexPath) as? FeedCollectionViewCell else {fatalError("ERRoR!")}
         let post = feedReturnWithOutNill[indexPath.item]
         //Устанавлиывем дату
-        let dateFormatter = DateFormatter()
         let createTime = post.createdTime
         dateFormatter.dateStyle = .medium
         dateFormatter.timeStyle = .medium
         dateFormatter.doesRelativeDateFormatting = true
         let time = dateFormatter.string(from: createTime)
-        
-        if post.currentUserLikesThisPost == true {
-            cell.imageHeartOfLike.image = #imageLiteral(resourceName: "like")
-            cell.imageHeartOfLike.tintColor = .systemBlue
-        } else {
-            cell.imageHeartOfLike.image = #imageLiteral(resourceName: "like")
-            cell.imageHeartOfLike.tintColor = .lightGray
-        }
-        cell.userName?.text = post.authorUsername
-        cell.countOfLikes?.text = String(post.likedByCount)
-        cell.descriptionTextLable?.text = post.description
-        cell.dateOfPublishing?.text = time
-        cell.userAvatar?.image = post.authorAvatar
-        cell.userAvatar?.layer.cornerRadius = (cell.userAvatar?.frame.size.width)! / 2
-        cell.postImage?.image = post.image
-        cell.currentFriend?.id = post.author
-        cell.currentPost = post
+        //Устанавливаем ячейку
+        cell.set(post: post, timeOfPublishing: time)
         cell.delegate = self
         return cell
     }
@@ -195,21 +179,23 @@ extension FeedViewController: UICollectionViewDelegateFlowLayout, CellDelegate {
     // MARK: - didTap on Avatar (Переход по тапу на Аватар/Имя)
     func didTap(OnAvatarIn cell: UICollectionViewCell, currentPost: Post) {
         guard let current = curUser else {return}
-        user.usersFollowedByUser(with: current.id, queue: DispatchQueue.global()) { (followers) in
-            guard followers != nil else {return self.alertMessage()}
-            self.follwed = followers ?? []
-            for user in self.follwed {
-                if user.id == currentPost.author {
-                    self.userOfCurrentPost = user
-                } else if currentPost.author == current.id {
-                    self.userOfCurrentPost = current
+        user.usersFollowedByUser(with: current.id, queue: DispatchQueue.global()) { [weak self] followers in
+            guard followers != nil else {return} //self?.alertMessage()
+            self?.follwed = followers ?? []
+            if let foll = self?.follwed {
+                for user in foll {
+                    if user.id == currentPost.author {
+                        self?.userOfCurrentPost = user
+                    } else if currentPost.author == current.id {
+                        self?.userOfCurrentPost = current
+                    }
                 }
             }
             DispatchQueue.main.async {
                 if #available(iOS 13.0, *) {
-                    guard let secondViewController = self.storyboard?.instantiateViewController(identifier: "FriendViewController") as? FriendViewController else { return }
-                    secondViewController.currentFriend = self.userOfCurrentPost
-                    self.show(secondViewController, sender: self)
+                    guard let secondViewController = self?.storyboard?.instantiateViewController(identifier: "FriendViewController") as? FriendViewController else { return }
+                    secondViewController.currentFriend = self?.userOfCurrentPost
+                    self?.show(secondViewController, sender: self)
                 }
             }
         }

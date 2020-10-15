@@ -42,6 +42,29 @@ class FeedCollectionViewCell: UICollectionViewCell {
         setTaps()
     }
     
+    // Устанавливаем данные в ячейку
+    func set(post: Post, timeOfPublishing: String) {
+        
+        
+        if post.currentUserLikesThisPost == true {
+            imageHeartOfLike.image = #imageLiteral(resourceName: "like")
+            imageHeartOfLike.tintColor = .systemBlue
+        } else {
+            imageHeartOfLike.image = #imageLiteral(resourceName: "like")
+            imageHeartOfLike.tintColor = .lightGray
+        }
+        
+        userName.text = post.authorUsername
+        countOfLikes?.text = String(post.likedByCount)
+        descriptionTextLable?.text = post.description
+        dateOfPublishing?.text = timeOfPublishing
+        userAvatar?.image = post.authorAvatar
+        userAvatar?.layer.cornerRadius = (userAvatar?.frame.size.width)! / 2
+        postImage?.image = post.image
+        currentFriend?.id = post.author
+        currentPost = post
+    }
+    
     // MARK: - Set Tap Recognizer
     func setTaps() {
         //Тап на количество лайков
@@ -90,7 +113,7 @@ class FeedCollectionViewCell: UICollectionViewCell {
             DispatchQueue.main.async {
                 self.countOfLikes?.text = String(countLike)
                 self.currentPost?.likedByCount = countLike
-                self.didLikePost()
+                self.likePostProcessing(color: .systemBlue, isUserLikesThisPost: true)
             }
         } else {
             guard let currentPost = self.currentPost else {return}
@@ -98,24 +121,16 @@ class FeedCollectionViewCell: UICollectionViewCell {
             DispatchQueue.main.async {
                 self.countOfLikes?.text = String(countLike)
                 self.currentPost?.likedByCount = countLike
-                self.didUnlikePost()
+                self.likePostProcessing(color: .lightGray, isUserLikesThisPost: false)
             }
         }
     }
     
-    //Если like пост
-    func didLikePost() {
+    //Функция при которой юхер like/unlike пост
+    func likePostProcessing(color: UIColor, isUserLikesThisPost: Bool) {
         self.imageHeartOfLike.image = #imageLiteral(resourceName: "like")
-        self.imageHeartOfLike.tintColor = .systemBlue
-        self.currentPost?.currentUserLikesThisPost = true
-        self.delegate?.updateFeed()
-    }
-    
-    //Если unlike пост
-    func didUnlikePost() {
-        self.imageHeartOfLike.image = #imageLiteral(resourceName: "like")
-        self.imageHeartOfLike.tintColor = .lightGray
-        self.currentPost?.currentUserLikesThisPost = false
+        self.imageHeartOfLike.tintColor = color
+        self.currentPost?.currentUserLikesThisPost = isUserLikesThisPost
         self.delegate?.updateFeed()
     }
     
@@ -153,6 +168,16 @@ class FeedCollectionViewCell: UICollectionViewCell {
             self.setTaps()
             self.delegate?.updateFeed()
         }
+    }
+    
+    //Очищаем ячейку после использования
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        postImage?.image = nil
+        dateOfPublishing?.text = nil
+        userAvatar?.image = nil
+        userName.text = nil
+        descriptionTextLable?.text = nil
     }
     
     static func nib() -> UINib {

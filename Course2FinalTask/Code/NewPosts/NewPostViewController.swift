@@ -34,6 +34,7 @@ class NewPostViewController: UIViewController {
     }
     
     
+    
 }
 //MARK: - Коллекция
 extension NewPostViewController: UICollectionViewDelegate, UICollectionViewDataSource {
