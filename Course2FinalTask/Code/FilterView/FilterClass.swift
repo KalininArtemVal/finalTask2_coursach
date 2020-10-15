@@ -15,7 +15,7 @@ var arrayWithFilter = [ImageToFilter]()
 
 //MARK: - Operation для обработки фильтров
 class UseFilter: Operation {
-
+    
     override var isAsynchronous: Bool {
         return true
     }
@@ -36,11 +36,11 @@ class UseFilter: Operation {
     var fifth: ImageToFilter?
     
     var arrayOfFilters = [ImageToFilter]()
-
+    
     init(image: UIImage?) {
         self.image = image
     }
-
+    
     override func main() {
         //Создаем структуры фильтров
         guard let image = image else {return}

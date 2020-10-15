@@ -23,8 +23,9 @@ class FilterCollectionViewCell: UICollectionViewCell {
     }
     
     
-    public func configue(image: UIImage) {
+    public func configue(image: UIImage, name: String) {
         filterImage.image = image
+        filterLable.text = name
         filterImage.contentMode = .scaleAspectFit
     }
     

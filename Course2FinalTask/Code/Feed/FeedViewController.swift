@@ -17,13 +17,13 @@ class FeedViewController: UIViewController, UIGestureRecognizerDelegate {
     
     //MARK: - Followers
     var youAreFollowed = [User]()
-
+    
     //MARK: - вызываем post
     var feedReturn = [Post]()
     var usersLikesPostArray = [User]()
     let post = DataProviders.shared.postsDataProvider
     var lookingUser: User?
-
+    
     var feedReturnWithOutNill = [Post]()
     let queueUtility = DispatchQueue.global(qos: .utility)
     static let identyfire = "FeedViewController"

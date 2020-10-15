@@ -20,7 +20,7 @@ class SelectFiltersViewController: UIViewController {
     
     
     
-//    let appendFilter = AppendFilter()
+    //    let appendFilter = AppendFilter()
     let invisibleView = UIView()
     let activityIndicatorCurrent = UIActivityIndicatorView()
     
@@ -99,9 +99,10 @@ extension SelectFiltersViewController: UICollectionViewDelegate, UICollectionVie
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilterCollectionViewCell.identifire, for: indexPath) as? FilterCollectionViewCell else {fatalError("ERRoR!")}
         
         let filter = self.filters[indexPath.row].image
+        let nameOfFilter = self.filters[indexPath.row].nameOfFilter
+        guard let name = nameOfFilter else {return cell}
         guard let selectedImage = filter else {return cell}
-        cell.configue(image: selectedImage)
-        
+        cell.configue(image: selectedImage, name: name)
         return cell
     }
     
@@ -113,7 +114,6 @@ extension SelectFiltersViewController: UICollectionViewDelegate, UICollectionVie
         if let destination = segue.destination as? SharedViewController {
             guard let image = userImage.image else {return}
             destination.sharedImage = image
-            
         }
     }
 }
